@@ -5,7 +5,7 @@
  */
 package controller;
 
-import enterpriseJavaBing.UsuarioFacadeLocal;
+import ejb.UsuarioFacadeLocal;
 import java.io.IOException;
 import java.io.Serializable;
 import javax.ejb.EJB;
@@ -49,7 +49,7 @@ public class NewTemplateController implements Serializable{
 
     public void destruirSesion() throws IOException{
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        String url="/proyecto_lab1/";   // redirige a la xhtml inicial por defecto en web.xml
+        String url="/proyecto_app/";   // redirige a la xhtml inicial por defecto en web.xml
         FacesContext.getCurrentInstance().getExternalContext().redirect(url);
     }
     

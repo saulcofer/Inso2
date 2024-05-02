@@ -3,33 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package enterpriseJavaBing;
+package ejb;
 
 import java.util.List;
 import javax.ejb.Local;
-import modelo.Rol;
+import modelo.Categoria;
 
 /**
  *
  * @author alvar
  */
 @Local
-public interface RolFacadeLocal {
+public interface CategoriaFacadeLocal {
 
-    void create(Rol rol);
+    void create(Categoria categoria);
 
-    void edit(Rol rol);
+    void edit(Categoria categoria);
 
-    void remove(Rol rol);
+    void remove(Categoria categoria);
 
-    Rol find(Object id);
+    Categoria find(Object id);
 
-    List<Rol> findAll();
+    List<Categoria> findAll();
 
-    List<Rol> findRange(int[] range);
+    List<Categoria> findRange(int[] range);
 
     int count();
-    
-    List<Rol> getRoles();
     
 }

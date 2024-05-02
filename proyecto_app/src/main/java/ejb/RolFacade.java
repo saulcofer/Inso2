@@ -3,19 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package enterpriseJavaBing;
+package ejb;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import modelo.Persona;
+import modelo.Rol;
 
 /**
  *
  * @author alvar
  */
 @Stateless
-public class PersonaFacade extends AbstractFacade<Persona> implements PersonaFacadeLocal {
+public class RolFacade extends AbstractFacade<Rol> implements RolFacadeLocal {
 
     @PersistenceContext(unitName = "PublicacionesPU")
     private EntityManager em;
@@ -25,8 +26,13 @@ public class PersonaFacade extends AbstractFacade<Persona> implements PersonaFac
         return em;
     }
 
-    public PersonaFacade() {
-        super(Persona.class);
+    public RolFacade() {
+        super(Rol.class);
+    }
+
+    public List<Rol> getRoles(){
+        return findAll();
     }
     
+
 }

@@ -5,7 +5,7 @@
  */
 package controller;
 
-import enterpriseJavaBing.UsuarioFacadeLocal;
+import ejb.UsuarioFacadeLocal;
 import java.io.IOException;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;

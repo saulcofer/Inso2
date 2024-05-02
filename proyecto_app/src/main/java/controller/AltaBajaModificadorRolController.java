@@ -5,8 +5,8 @@
  */
 package controller;
 
-import enterpriseJavaBing.PublicacionFacadeLocal;
-import enterpriseJavaBing.RolFacadeLocal;
+import ejb.PublicacionFacadeLocal;
+import ejb.RolFacadeLocal;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;

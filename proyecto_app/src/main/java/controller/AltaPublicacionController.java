@@ -5,8 +5,8 @@
  */
 package controller;
 
-import enterpriseJavaBing.CategoriaFacadeLocal;
-import enterpriseJavaBing.PublicacionFacadeLocal;
+import ejb.CategoriaFacadeLocal;
+import ejb.PublicacionFacadeLocal;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;

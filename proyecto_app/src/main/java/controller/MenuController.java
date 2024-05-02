@@ -8,7 +8,7 @@ package controller;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import enterpriseJavaBing.MenuFacadeLocal;
+import ejb.MenuFacadeLocal;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;

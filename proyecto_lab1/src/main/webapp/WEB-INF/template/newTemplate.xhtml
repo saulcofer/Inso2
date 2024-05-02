@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet library="css" name="default.css"/>
+        <h:outputStylesheet library="css" name="cssLayout.css"/>
+        <h:outputScript library="js" name="metodos.js"/>
+        <title>Facelets Template</title>
+         <f:event type="preRenderView" listener="#{newTemplateController.verificarYMostrar()}"/>
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <ui:insert name="top">Top</ui:insert>
+            <p:menubar model="#{menuController.modelo}">
+                <f:facet name="options">
+                    <h:form>
+                        <p:commandButton value="Logout" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" actionListener="#{newTemplateController.destruirSesion()}"/>
+                    </h:form>
+                    <p:commandButton value="Saludar" onclick="decirHola();"/>
+                </f:facet>
+            </p:menubar>
+        </div>
+
+        <div id="content" class="center_content">
+            <ui:insert name="content">Content</ui:insert>
+        </div>
+
+        <div id="bottom">
+            <ui:insert name="bottom">Bottom</ui:insert>
+        </div>
+
+    </h:body>
+
+</html>

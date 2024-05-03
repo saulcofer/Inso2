@@ -43,9 +43,9 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 
 /* INSERTS */
 INSERT INTO `usuarios` (`User_id`, `Username`, `Password`, `UltimaConexion`,`Person_id`, `IdRol`) VALUES
-(1, 'Profesor', 'Profesor', NULL, 3, 1),
-(2, 'Alumno', 'Alumno', '2018-01-27 00:03:56', 4, 2),
-(3, 'Admin', 'Admin', '2018-01-31 17:34:43', 5, 3);
+(1, 'Profesor', 'Profesor', NULL, 1, 1),
+(2, 'Alumno', 'Alumno', '2018-01-27 00:03:56', 2, 2),
+(3, 'Admin', 'Admin', '2018-01-31 17:34:43', 3, 3);
 
 CREATE TABLE `instalaciones` (
   `IdInstalacion` INT(11) NOT NULL AUTO_INCREMENT,
@@ -84,39 +84,43 @@ CREATE TABLE IF NOT EXISTS `usuarios_sesiones` (
 CREATE TABLE IF NOT EXISTS `menus` (
   `IdMenu` INT(11) NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(50) NOT NULL,
-  `Fecha_hora` TIMESTAMP(0) NOT NULL,
-  `Estado` BIT(1) NOT NULL,
-  `Url` VARCHAR(100) NOT NULL,
+  `Tipo` VARCHAR(1) NOT NULL,
   `IdRol` INT(11) NOT NULL,
+  `IdMenu_Menu` INT(11) DEFAULT NULL,
+  `Url` VARCHAR(100) DEFAULT NULL,
   PRIMARY KEY (`IdMenu`),
-  FOREIGN KEY (`IdRol`) REFERENCES `roles`(`IdRol`)
-);
+  KEY `FK_Menu_Rol` (`IdRol`),
+  KEY `Fk_Menu_menu` (`IdMenu_Menu`),
+  CONSTRAINT `FK_Menu_Rol` FOREIGN KEY (`IdRol`) REFERENCES `roles` (`IdRol`),
+  CONSTRAINT `Fk_Menu_menu` FOREIGN KEY (`IdMenu_Menu`) REFERENCES `menus` (`IdMenu`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
-INSERT INTO `menus` (`IdMenu`, `Nombre`, `Tipo`, `Estado`, `IdRol`, `IdMenu_Menu`, `url`) VALUES
-	(1, 'Usuario', 'S', b'1', 3, NULL, NULL),
-	(2, 'Nuevo', 'I', b'1', 3, 1, '/privado/administrador/AltaUsuario.softwareII'),
-	(3, 'Modificar', 'I', b'1', 3, 1, '/privado/administrador/ModificarUsuario.softwareII'),
-	(4, 'Eliminar', 'I', b'1', 3, 1, '/privado/administrador/EliminarUsuario.softwareII'),
-	(5, 'Roles', 'S', b'1', 3, NULL, NULL),
-	(6, 'Nuevo', 'I', b'1', 3, 5, '/privado/administrador/AltaRol.softwareII'),
-	(7, 'Modificar', 'I', b'1', 3, 5, '/privado/administrador/ModificarRol.softwareII'),
-	(8, 'Eliminar', 'I', b'1', 3, 5, '/privado/administrador/EliminarRol.softwareII'),
-	(9, 'Publicación', 'S', b'1', 2, NULL, NULL),
-	(10, 'Nueva', 'I', b'1', 2, 9, '/privado//alumno/AltaPublicacion.softwareII'),
-	(11, 'Modificar', 'I', b'1', 2, 9, '/privado/alumno/ModificarPublicacion.softwareII'),
-	(12, 'Eliminar', 'I', b'1', 2, 9, '/privado//alumno/EliminarPublicacion.softwareII'),
-	(13, 'Listar sesiones', 'S', b'1', 2, NULL, ''),
-	(14, 'sesiones', 'S', b'1', 1, NULL, NULL),
-	(15, 'Leer', 'I', b'1', 1, 14, '/privado/profesor/ListarYFiltrarsesiones.softwareII'),
-	(16, 'Eliminar', 'I', b'1', 1, 14, NULL),
-	(17, 'Comentar', 'I', b'1', 1, NULL, '/privado/profesor/ComentarPublicacion.softwareII'),
-	(18, 'Valorar', 'I', b'1', 1, NULL, NULL),
-	(22, 'instalaciones', 'S', b'1', 3, NULL, NULL),
-	(23, 'Nueva', 'I', b'1', 3, 22, '/privado/administrador/AltaCategoria.softwareII'),
-	(24, 'Modificar', 'I', b'1', 3, 22, '/privado/administrador/ModificarCategoria.softwareII'),
-	(25, 'Eliminar', 'I', b'1', 3, 22, '/privado/administrador/EliminarCategoria.softwareII'),
-	(26, 'Por Categoria', 'I', b'1', 2, 13, '/privado/alumno/ListarsesionesPorCategoria.softwareII'),
-	(27, 'Por Valoración', 'I', b'1', 2, 13, '/privado/alumno/ListarsesionesPorValoracion.softwareII');
+INSERT INTO `menus` (`IdMenu`, `Nombre`, `Tipo`, `IdRol`, `IdMenu_Menu`, `Url`) VALUES
+	(1, 'Usuario', 'S', 3, NULL, NULL),
+	(2, 'Nuevo', 'I', 3, 1, '/privado/administrador/AltaUsuario.softwareII'),
+	(3, 'Modificar', 'I', 3, 1, '/privado/administrador/ModificarUsuario.softwareII'),
+	(4, 'Eliminar', 'I', 3, 1, '/privado/administrador/EliminarUsuario.softwareII'),
+	(5, 'Roles', 'S', 3, NULL, NULL),
+	(6, 'Nuevo', 'I', 3, 5, '/privado/administrador/AltaRol.softwareII'),
+	(7, 'Modificar', 'I', 3, 5, '/privado/administrador/ModificarRol.softwareII'),
+	(8, 'Eliminar', 'I', 3, 5, '/privado/administrador/EliminarRol.softwareII'),
+	(9, 'Publicación', 'S', 2, NULL, NULL),
+	(10, 'Nueva', 'I', 2, 9, '/privado//alumno/AltaPublicacion.softwareII'),
+	(11, 'Modificar', 'I', 2, 9, '/privado/alumno/ModificarPublicacion.softwareII'),
+	(12, 'Eliminar', 'I', 2, 9, '/privado//alumno/EliminarPublicacion.softwareII'),
+	(13, 'Listar sesiones', 'S', 2, NULL, ''),
+	(14, 'Sesiones', 'S', 1, NULL, NULL),
+	(15, 'Leer', 'I', 1, 14, '/privado/profesor/ListarYFiltrarsesiones.softwareII'),
+	(16, 'Eliminar', 'I', 1, 14, NULL),
+	(17, 'Comentar', 'I', 1, NULL, '/privado/profesor/ComentarPublicacion.softwareII'),
+	(18, 'Valorar', 'I', 1, NULL, NULL),
+	(22, 'Instalaciones', 'S', 3, NULL, NULL),
+	(23, 'Nueva', 'I', 3, 22, '/privado/administrador/AltaCategoria.softwareII'),
+	(24, 'Modificar', 'I', 3, 22, '/privado/administrador/ModificarCategoria.softwareII'),
+	(25, 'Eliminar', 'I', 3, 22, '/privado/administrador/EliminarCategoria.softwareII'),
+	(26, 'Por Categoria', 'I', 2, 13, '/privado/alumno/ListarsesionesPorCategoria.softwareII'),
+	(27, 'Por Valoración', 'I', 2, 13, '/privado/alumno/ListarsesionesPorValoracion.softwareII');
+
 
 
 CREATE TABLE IF NOT EXISTS `instalaciones_sesiones` (

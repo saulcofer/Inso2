@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS `proyecto_INSOII`;
 USE `proyecto_INSOII`;
 
 -- Creación de tablas
-CREATE TABLE `personas` (
+CREATE TABLE IF NOT EXISTS `personas` (
   `Person_id` INT(11) NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(75) NOT NULL,
   `Apellidos` VARCHAR(100) NOT NULL,
@@ -17,7 +17,7 @@ INSERT INTO `personas` (`Nombre`, `Apellidos`, `FechaNacimiento`, `Sexo`) VALUES
 ('Antonio', 'García Rodríguez', '1995-05-10', 'M'),
 ('Gabriel', 'García Pérez', '1998-12-15', 'M');
 
-CREATE TABLE `roles` (
+CREATE TABLE IF NOT EXISTS `roles` (
   `IdRol` INT(11) NOT NULL AUTO_INCREMENT,
   `TipoUsuario` VARCHAR(20) NOT NULL,
   `Descripcion` VARCHAR(100) NOT NULL,
@@ -29,7 +29,7 @@ INSERT INTO `roles` (`IdRol`, `TipoUsuario`, `Descripcion`) VALUES
 (2, 'P', 'Participante'),
 (3, 'A', 'Admin');
 
-CREATE TABLE `usuarios` (
+CREATE TABLE IF NOT EXISTS `usuarios` (
   `User_id` INT(11) NOT NULL AUTO_INCREMENT,
   `Username` CHAR(20) NOT NULL,
   `Password` VARCHAR(20) NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE `instalaciones` (
   PRIMARY KEY (`IdInstalacion`)
 );
 
-CREATE TABLE `sesiones` (
+CREATE TABLE IF NOT EXISTS `sesiones` (
   `IdSesion` INT(11) NOT NULL AUTO_INCREMENT,
   `Titulo` VARCHAR(100) NOT NULL,
   `Cuerpo` VARCHAR(1000) NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE `sesiones` (
   FOREIGN KEY (`IdInstalacion`) REFERENCES `instalaciones`(`IdInstalacion`)
 );
 
-CREATE TABLE `usuarios_sesiones` (
+CREATE TABLE IF NOT EXISTS `usuarios_sesiones` (
   `Id` INT(11) NOT NULL AUTO_INCREMENT,
   `IdSesion` INT(11) NOT NULL,
   `UserId` INT(11) NOT NULL,
@@ -81,7 +81,7 @@ CREATE TABLE `usuarios_sesiones` (
   FOREIGN KEY (`UserId`) REFERENCES `usuarios`(`User_id`)
 );
 
-CREATE TABLE `menus` (
+CREATE TABLE IF NOT EXISTS `menus` (
   `IdMenu` INT(11) NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(50) NOT NULL,
   `Fecha_hora` TIMESTAMP(0) NOT NULL,
@@ -119,7 +119,7 @@ INSERT INTO `menus` (`IdMenu`, `Nombre`, `Tipo`, `Estado`, `IdRol`, `IdMenu_Menu
 	(27, 'Por Valoración', 'I', b'1', 2, 13, '/privado/alumno/ListarsesionesPorValoracion.softwareII');
 
 
-CREATE TABLE `instalaciones_sesiones` (
+CREATE TABLE IF NOT EXISTS `instalaciones_sesiones` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `idSesion` INT(11) NOT NULL,
   `idUser` INT(11) NOT NULL,

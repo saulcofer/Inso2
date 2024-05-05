@@ -33,7 +33,7 @@ public class Usuario implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)     // autogenerado
     private int idUsuario;
     
-    @Column(name="User")
+    @Column(name="Username")
     private String username;
     
     @Column(name="Password")
@@ -42,15 +42,12 @@ public class Usuario implements Serializable{
     @Column(name="UltimaConexion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date ultimaConexion;
-    
-    @Column(name="Estado")
-    private int estado;
-    
-    @JoinColumn(name="idPersona")
+        
+    @JoinColumn(name="IdPerson")
     @OneToOne(cascade=CascadeType.PERSIST)
     private Persona persona;
     
-    @JoinColumn(name="idRol")
+    @JoinColumn(name="IdRol")
     @ManyToOne
     private Rol rol;
 
@@ -61,7 +58,6 @@ public class Usuario implements Serializable{
         hash = 29 * hash + Objects.hashCode(this.username);
         hash = 29 * hash + Objects.hashCode(this.password);
         hash = 29 * hash + Objects.hashCode(this.ultimaConexion);
-        hash = 29 * hash + this.estado;
         hash = 29 * hash + Objects.hashCode(this.persona);
         hash = 29 * hash + Objects.hashCode(this.rol);
         return hash;
@@ -80,9 +76,6 @@ public class Usuario implements Serializable{
         }
         final Usuario other = (Usuario) obj;
         if (this.idUsuario != other.idUsuario) {
-            return false;
-        }
-        if (this.estado != other.estado) {
             return false;
         }
         if (this.persona != other.persona) {
@@ -133,14 +126,6 @@ public class Usuario implements Serializable{
 
     public void setUltimaConexion(Date ultimaConexion) {
         this.ultimaConexion = ultimaConexion;
-    }
-
-    public int getEstado() {
-        return estado;
-    }
-
-    public void setEstado(int estado) {
-        this.estado = estado;
     }
 
     public Persona getPersona() {

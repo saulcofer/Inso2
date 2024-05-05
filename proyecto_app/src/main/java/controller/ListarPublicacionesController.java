@@ -12,7 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
-import modelo.Publicacion;
+import modelo.Sesion;
 
 /**
  *
@@ -24,23 +24,23 @@ import modelo.Publicacion;
 
 public class ListarPublicacionesController implements Serializable{
     
-    private List<Publicacion> publicaciones;
+    private List<Sesion> publicaciones;
     
     @EJB
     private PublicacionFacadeLocal pubEJB;
     
-    private Publicacion pub_target;
+    private Sesion pub_target;
             
     @PostConstruct
     public void init(){
         publicaciones = pubEJB.findAll();
     }
 
-    public List<Publicacion> getPublicaciones() {
+    public List<Sesion> getPublicaciones() {
         return publicaciones;
     }
 
-    public void setPublicaciones(List<Publicacion> publicaciones) {
+    public void setPublicaciones(List<Sesion> publicaciones) {
         this.publicaciones = publicaciones;
     }
 
@@ -52,11 +52,11 @@ public class ListarPublicacionesController implements Serializable{
         this.pubEJB = pubEJB;
     }
 
-    public Publicacion getPub_target() {
+    public Sesion getPub_target() {
         return pub_target;
     }
 
-    public void setPub_target(Publicacion pub_target) {
+    public void setPub_target(Sesion pub_target) {
         this.pub_target = pub_target;
     }
  

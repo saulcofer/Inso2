@@ -4,12 +4,12 @@ USE `proyecto_INSOII`;
 
 -- Creación de tablas
 CREATE TABLE IF NOT EXISTS `personas` (
-  `Person_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `IdPerson` INT(11) NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(75) NOT NULL,
   `Apellidos` VARCHAR(100) NOT NULL,
   `FechaNacimiento` DATETIME NOT NULL,
   `Sexo` VARCHAR(1) NOT NULL,
-  PRIMARY KEY (`Person_id`)
+  PRIMARY KEY (`IdPerson`)
 );
 
 INSERT INTO `personas` (`Nombre`, `Apellidos`, `FechaNacimiento`, `Sexo`) VALUES
@@ -30,24 +30,24 @@ INSERT INTO `roles` (`IdRol`, `TipoUsuario`, `Descripcion`) VALUES
 (3, 'A', 'Admin');
 
 CREATE TABLE IF NOT EXISTS `usuarios` (
-  `User_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `IdUser` INT(11) NOT NULL AUTO_INCREMENT,
   `Username` CHAR(20) NOT NULL,
   `Password` VARCHAR(20) NOT NULL,
   `UltimaConexion` DATETIME NULL,
-  `Person_id` INT(11) NOT NULL,
+  `IdPerson` INT(11) NOT NULL,
   `IdRol` INT(11) NOT NULL,
-  PRIMARY KEY (`User_id`),
-  FOREIGN KEY (`Person_id`) REFERENCES `personas`(`Person_id`),
+  PRIMARY KEY (`IdUser`),
+  FOREIGN KEY (`IdPerson`) REFERENCES `personas`(`IdPerson`),
   FOREIGN KEY (`IdRol`) REFERENCES `roles`(`IdRol`)
 );
 
 /* INSERTS */
-INSERT INTO `usuarios` (`User_id`, `Username`, `Password`, `UltimaConexion`,`Person_id`, `IdRol`) VALUES
+INSERT INTO `usuarios` (`IdUser`, `Username`, `Password`, `UltimaConexion`,`IdPerson`, `IdRol`) VALUES
 (1, 'Profesor', 'Profesor', NULL, 1, 1),
 (2, 'Alumno', 'Alumno', '2018-01-27 00:03:56', 2, 2),
 (3, 'Admin', 'Admin', '2018-01-31 17:34:43', 3, 3);
 
-CREATE TABLE `instalaciones` (
+CREATE TABLE IF NOT EXISTS `instalaciones` (
   `IdInstalacion` INT(11) NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(50) NOT NULL,
   `Descripcion` VARCHAR(100) NOT NULL,
@@ -64,21 +64,19 @@ CREATE TABLE IF NOT EXISTS `sesiones` (
   `Fecha` DATETIME NOT NULL,
   `Valoracion_media` DECIMAL(10,2) NULL,
   `Comentarios` VARCHAR(100) NULL,
-  `IdInstalacion` INT(11) NOT NULL,
-  PRIMARY KEY (`IdSesion`),
-  FOREIGN KEY (`IdInstalacion`) REFERENCES `instalaciones`(`IdInstalacion`)
+  PRIMARY KEY (`IdSesion`)
 );
 
 CREATE TABLE IF NOT EXISTS `usuarios_sesiones` (
   `Id` INT(11) NOT NULL AUTO_INCREMENT,
   `IdSesion` INT(11) NOT NULL,
-  `UserId` INT(11) NOT NULL,
+  `IdUser` INT(11) NOT NULL,
   `Valoracion` INT(10) NULL,
   `Comentarios` VARCHAR(100) NULL,
   `Fecha_hora` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`),
   FOREIGN KEY (`IdSesion`) REFERENCES `sesiones`(`IdSesion`),
-  FOREIGN KEY (`UserId`) REFERENCES `usuarios`(`User_id`)
+  FOREIGN KEY (`IdUser`) REFERENCES `usuarios`(`IdUser`)
 );
 
 CREATE TABLE IF NOT EXISTS `menus` (
@@ -124,11 +122,11 @@ INSERT INTO `menus` (`IdMenu`, `Nombre`, `Tipo`, `IdRol`, `IdMenu_Menu`, `Url`) 
 
 
 CREATE TABLE IF NOT EXISTS `instalaciones_sesiones` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `idSesion` INT(11) NOT NULL,
-  `idUser` INT(11) NOT NULL,
+  `Id` INT(11) NOT NULL AUTO_INCREMENT,
+  `IdSesion` INT(11) NOT NULL,
+  `IdInstalacion` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`idSesion`) REFERENCES `sesiones`(`IdSesion`),
-  FOREIGN KEY (`idUser`) REFERENCES `usuarios`(`User_id`)
+  FOREIGN KEY (`IdInstalacion`) REFERENCES `instalaciones`(`IdInstalacion`)
 );
 

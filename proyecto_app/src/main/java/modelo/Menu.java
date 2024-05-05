@@ -9,8 +9,6 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,10 +34,7 @@ public class Menu implements Serializable {
     
     @Column(name="Tipo")
     private String tipo;
-    
-    @Column(name="Estado")
-    private int estado;
-    
+        
     @JoinColumn(name="IdRol")
     @ManyToOne
     private Rol rol;
@@ -48,7 +43,7 @@ public class Menu implements Serializable {
     @ManyToOne
     private Menu menu;
     
-    @Column(name="url")
+    @Column(name="Url")
     private String url;
 
     public int getIdMenu() {
@@ -73,14 +68,6 @@ public class Menu implements Serializable {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
-    }
-
-    public int getEstado() {
-        return estado;
-    }
-
-    public void setEstado(int estado) {
-        this.estado = estado;
     }
 
     public Rol getRol() {
@@ -113,7 +100,6 @@ public class Menu implements Serializable {
         hash = 53 * hash + this.idMenu;
         hash = 53 * hash + Objects.hashCode(this.nombre);
         hash = 53 * hash + Objects.hashCode(this.tipo);
-        hash = 53 * hash + this.estado;
         hash = 53 * hash + Objects.hashCode(this.rol);
         hash = 53 * hash + Objects.hashCode(this.menu);
         hash = 53 * hash + Objects.hashCode(this.url);
@@ -133,9 +119,6 @@ public class Menu implements Serializable {
         }
         final Menu other = (Menu) obj;
         if (this.idMenu != other.idMenu) {
-            return false;
-        }
-        if (this.estado != other.estado) {
             return false;
         }
         if (!Objects.equals(this.nombre, other.nombre)) {

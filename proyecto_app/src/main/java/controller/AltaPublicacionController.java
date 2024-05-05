@@ -19,7 +19,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import modelo.Categoria;
-import modelo.Publicacion;
+import modelo.Sesion;
 import modelo.Usuario;
 
 /**
@@ -36,7 +36,7 @@ public class AltaPublicacionController implements Serializable{
     private Usuario user;
     
     @Inject
-    private Publicacion pub;
+    private Sesion pub;
     
     private String categoria_elegida;
     List<Categoria> categorias;
@@ -84,11 +84,11 @@ public class AltaPublicacionController implements Serializable{
         this.user = user;
     }
 
-    public Publicacion getPub() {
+    public Sesion getPub() {
         return pub;
     }
 
-    public void setPub(Publicacion pub) {
+    public void setPub(Sesion pub) {
         this.pub = pub;
     }
 

@@ -14,7 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import modelo.Publicacion;
+import modelo.Sesion;
 
 /**
  *
@@ -32,7 +32,7 @@ public class EditarPublicacionController implements Serializable{
     @EJB
     private PublicacionFacadeLocal pubEJB;
     
-    private Publicacion pub;
+    private Sesion pub;
         
     @PostConstruct
     public void init(){
@@ -47,11 +47,11 @@ public class EditarPublicacionController implements Serializable{
         this.listPubCon = listPubCon;
     }
 
-    public Publicacion getPub() {
+    public Sesion getPub() {
         return pub;
     }
 
-    public void setPub(Publicacion pub) {
+    public void setPub(Sesion pub) {
         this.pub = pub;
     }
     

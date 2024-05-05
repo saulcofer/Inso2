@@ -14,7 +14,7 @@ import javax.ejb.EJB;
 //import javax.enterprise.context.RequestScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import modelo.Publicacion;
+import modelo.Sesion;
 import modelo.Rol;
 
 /**

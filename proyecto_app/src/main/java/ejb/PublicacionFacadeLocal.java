@@ -7,7 +7,7 @@ package ejb;
 
 import java.util.List;
 import javax.ejb.Local;
-import modelo.Publicacion;
+import modelo.Sesion;
 
 /**
  *
@@ -16,17 +16,17 @@ import modelo.Publicacion;
 @Local
 public interface PublicacionFacadeLocal {
 
-    void create(Publicacion publicacion);
+    void create(Sesion publicacion);
 
-    void edit(Publicacion publicacion);
+    void edit(Sesion publicacion);
 
-    void remove(Publicacion publicacion);
+    void remove(Sesion publicacion);
 
-    Publicacion find(Object id);
+    Sesion find(Object id);
 
-    List<Publicacion> findAll();
+    List<Sesion> findAll();
 
-    List<Publicacion> findRange(int[] range);
+    List<Sesion> findRange(int[] range);
 
     int count();
     

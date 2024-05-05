@@ -28,17 +28,41 @@ public class Rol implements Serializable{
     private int idRol;
     
     @Column(name="TipoUsuario")
-    private char tipoUsuario;
+    private String tipoUsuario;
     
     @Column(name="Descripcion")
     private String descripcion;
 
+    public int getIdRol() {
+        return idRol;
+    }
+
+    public void setIdRol(int idRol) {
+        this.idRol = idRol;
+    }
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 17 * hash + this.idRol;
-        hash = 17 * hash + this.tipoUsuario;
-        hash = 17 * hash + Objects.hashCode(this.descripcion);
+        hash = 71 * hash + this.idRol;
+        hash = 71 * hash + Objects.hashCode(this.tipoUsuario);
+        hash = 71 * hash + Objects.hashCode(this.descripcion);
         return hash;
     }
 
@@ -57,7 +81,7 @@ public class Rol implements Serializable{
         if (this.idRol != other.idRol) {
             return false;
         }
-        if (this.tipoUsuario != other.tipoUsuario) {
+        if (!Objects.equals(this.tipoUsuario, other.tipoUsuario)) {
             return false;
         }
         if (!Objects.equals(this.descripcion, other.descripcion)) {
@@ -66,29 +90,6 @@ public class Rol implements Serializable{
         return true;
     }
 
-    public int getIdRol() {
-        return idRol;
-    }
-
-    public void setIdRol(int idRol) {
-        this.idRol = idRol;
-    }
-
-    public char getTipoUsuario() {
-        return tipoUsuario;
-    }
-
-    public void setTipoUsuario(char tipoUsuario) {
-        this.tipoUsuario = tipoUsuario;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
     
        
 }

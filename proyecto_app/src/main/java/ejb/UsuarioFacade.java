@@ -5,16 +5,14 @@
  */
 package ejb;
 
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import modelo.Usuario;
 
 /**
  *
- * @author alvar
+ * @author jvega
  */
 @Stateless
 public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFacadeLocal {
@@ -29,21 +27,6 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
 
     public UsuarioFacade() {
         super(Usuario.class);
-    }
-    
-    @Override
-    public Usuario verificarUsuario(Usuario us){
-        String consulta = "FROM Usuario u WHERE u.username=:param1 and u.password=:param2";
-        Query query = em.createQuery(consulta);
-        query.setParameter("param1",us.getUsername());
-        query.setParameter("param2",us.getPassword());
-        List<Usuario>resultado = query.getResultList();
-        
-        if(resultado.size()!=0){
-            return resultado.get(0);
-        }else{
-            return null;
-        }
     }
     
 }

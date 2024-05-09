@@ -103,9 +103,9 @@ public class UsuarioController implements Serializable{
         this.rolEJB = rolEJB;
     }
     
-    public Rol getRol(char tipoUsuario){        
+    public Rol getRol(String tipoUsuario){        
         for (int i=0;i<=roles.size();i++){
-            if(roles.get(i).getTipoUsuario()==tipoUsuario){
+            if(roles.get(i).getTipoUsuario().equals(tipoUsuario)){
                 return roles.get(i);
             }
         } 

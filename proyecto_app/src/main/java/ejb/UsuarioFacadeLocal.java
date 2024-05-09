@@ -11,7 +11,7 @@ import modelo.Usuario;
 
 /**
  *
- * @author alvar
+ * @author jvega
  */
 @Local
 public interface UsuarioFacadeLocal {
@@ -29,7 +29,5 @@ public interface UsuarioFacadeLocal {
     List<Usuario> findRange(int[] range);
 
     int count();
-    
-    Usuario verificarUsuario(Usuario us);
     
 }

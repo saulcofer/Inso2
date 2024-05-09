@@ -8,14 +8,14 @@ package ejb;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import modelo.Persona;
+import modelo.Instalacion;
 
 /**
  *
  * @author jvega
  */
 @Stateless
-public class PersonaFacade extends AbstractFacade<Persona> implements PersonaFacadeLocal {
+public class InstalacionFacade extends AbstractFacade<Instalacion> implements InstalacionFacadeLocal {
 
     @PersistenceContext(unitName = "PublicacionesPU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class PersonaFacade extends AbstractFacade<Persona> implements PersonaFac
         return em;
     }
 
-    public PersonaFacade() {
-        super(Persona.class);
+    public InstalacionFacade() {
+        super(Instalacion.class);
     }
     
 }

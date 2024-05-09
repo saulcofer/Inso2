@@ -7,26 +7,26 @@ package ejb;
 
 import java.util.List;
 import javax.ejb.Local;
-import modelo.Rol;
+import modelo.Instalacion;
 
 /**
  *
  * @author jvega
  */
 @Local
-public interface RolFacadeLocal {
+public interface InstalacionFacadeLocal {
 
-    void create(Rol rol);
+    void create(Instalacion instalacion);
 
-    void edit(Rol rol);
+    void edit(Instalacion instalacion);
 
-    void remove(Rol rol);
+    void remove(Instalacion instalacion);
 
-    Rol find(Object id);
+    Instalacion find(Object id);
 
-    List<Rol> findAll();
+    List<Instalacion> findAll();
 
-    List<Rol> findRange(int[] range);
+    List<Instalacion> findRange(int[] range);
 
     int count();
     

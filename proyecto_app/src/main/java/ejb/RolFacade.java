@@ -5,7 +5,6 @@
  */
 package ejb;
 
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,7 +12,7 @@ import modelo.Rol;
 
 /**
  *
- * @author alvar
+ * @author jvega
  */
 @Stateless
 public class RolFacade extends AbstractFacade<Rol> implements RolFacadeLocal {
@@ -29,10 +28,5 @@ public class RolFacade extends AbstractFacade<Rol> implements RolFacadeLocal {
     public RolFacade() {
         super(Rol.class);
     }
-
-    public List<Rol> getRoles(){
-        return findAll();
-    }
     
-
 }

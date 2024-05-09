@@ -11,16 +11,16 @@ import modelo.Sesion;
 
 /**
  *
- * @author alvar
+ * @author jvega
  */
 @Local
-public interface PublicacionFacadeLocal {
+public interface SesionFacadeLocal {
 
-    void create(Sesion publicacion);
+    void create(Sesion sesion);
 
-    void edit(Sesion publicacion);
+    void edit(Sesion sesion);
 
-    void remove(Sesion publicacion);
+    void remove(Sesion sesion);
 
     Sesion find(Object id);
 

@@ -11,7 +11,7 @@ import modelo.Persona;
 
 /**
  *
- * @author alvar
+ * @author jvega
  */
 @Local
 public interface PersonaFacadeLocal {

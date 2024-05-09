@@ -5,8 +5,7 @@
  */
 package controller;
 
-import ejb.CategoriaFacadeLocal;
-import ejb.PublicacionFacadeLocal;
+import ejb.SesionFacadeLocal;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +17,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import modelo.Categoria;
 import modelo.Sesion;
 import modelo.Usuario;
 
@@ -36,16 +34,12 @@ public class AltaPublicacionController implements Serializable{
     private Usuario user;
     
     @Inject
-    private Sesion pub;
+    private Sesion ses;
     
     private String categoria_elegida;
-    List<Categoria> categorias;
     
     @EJB
-    private PublicacionFacadeLocal pubEJB;
-    
-    @EJB
-    private CategoriaFacadeLocal catEJB;
+    private SesionFacadeLocal pubEJB;
     
     @PostConstruct
     public void init(){
@@ -56,10 +50,10 @@ public class AltaPublicacionController implements Serializable{
     
     public void insertarPublicacion(){
         try{
-            pub.setPersona(user.getPersona());
-            pub.setCategoria(obtenerCategoria(categoria_elegida));  // No es posible pasaar el objeto directamente de la vista al controlador     
-            pub.setFecha(new Date());
-            pubEJB.create(pub);
+            ses.setPersona(user.getPersona());
+            ses.setCategoria(obtenerCategoria(categoria_elegida));  // No es posible pasaar el objeto directamente de la vista al controlador     
+            ses.setFecha(new Date());
+            pubEJB.create(ses);
             FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Publicacion registrada con éxito",""));
         }catch(Exception e){
             System.out.println("Error al insertar el usuario "+e.getMessage());
@@ -85,11 +79,11 @@ public class AltaPublicacionController implements Serializable{
     }
 
     public Sesion getPub() {
-        return pub;
+        return ses;
     }
 
     public void setPub(Sesion pub) {
-        this.pub = pub;
+        this.ses = pub;
     }
 
     public List<Categoria> getCategorias() {
@@ -128,7 +122,7 @@ public class AltaPublicacionController implements Serializable{
     public int hashCode() {
         int hash = 3;
         hash = 23 * hash + Objects.hashCode(this.user);
-        hash = 23 * hash + Objects.hashCode(this.pub);
+        hash = 23 * hash + Objects.hashCode(this.ses);
         hash = 23 * hash + Objects.hashCode(this.categoria_elegida);
         hash = 23 * hash + Objects.hashCode(this.categorias);
         hash = 23 * hash + Objects.hashCode(this.pubEJB);
@@ -154,7 +148,7 @@ public class AltaPublicacionController implements Serializable{
         if (!Objects.equals(this.user, other.user)) {
             return false;
         }
-        if (!Objects.equals(this.pub, other.pub)) {
+        if (!Objects.equals(this.ses, other.ses)) {
             return false;
         }
         if (!Objects.equals(this.categorias, other.categorias)) {

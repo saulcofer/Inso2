@@ -5,7 +5,7 @@
  */
 package controller;
 
-import ejb.PublicacionFacadeLocal;
+import ejb.SesionFacadeLocal;
 import ejb.RolFacadeLocal;
 import java.io.Serializable;
 import java.util.List;

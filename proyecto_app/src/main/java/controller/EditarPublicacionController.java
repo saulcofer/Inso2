@@ -5,7 +5,7 @@
  */
 package controller;
 
-import ejb.PublicacionFacadeLocal;
+import ejb.SesionFacadeLocal;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

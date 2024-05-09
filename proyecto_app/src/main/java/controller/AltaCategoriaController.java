@@ -5,14 +5,12 @@
  */
 package controller;
 
-import ejb.CategoriaFacadeLocal;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import modelo.Categoria;
 
 /**
  *

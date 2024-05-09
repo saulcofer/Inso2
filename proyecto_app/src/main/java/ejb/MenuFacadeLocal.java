@@ -8,6 +8,7 @@ package ejb;
 import java.util.List;
 import javax.ejb.Local;
 import modelo.Menu;
+import modelo.Usuario;
 
 /**
  *
@@ -30,4 +31,6 @@ public interface MenuFacadeLocal {
 
     int count();
     
+    List<Menu> obtenerMenusUsuario(Usuario user);
+
 }

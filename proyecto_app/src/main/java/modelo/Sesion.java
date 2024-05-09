@@ -7,6 +7,7 @@ package modelo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -43,8 +45,24 @@ public class Sesion implements Serializable{
     private float valoracion;
     
     @Column(name="Comentarios")
-    private String comentarios; 
+    private String comentarios;
+    
+    @ManyToMany(mappedBy = "sesiones")
+    private List<Usuario> usuarios;
+    
+    @ManyToMany(mappedBy = "sesiones")
+    private List<Instalacion> instalaciones;
 
+    public List<Instalacion> getInstalaciones() {
+        return instalaciones;
+    }
+
+    public void setInstalaciones(List<Instalacion> instalaciones) {
+        this.instalaciones = instalaciones;
+    }
+
+    
+    
     public int getIdSesion() {
         return idSesion;
     }
@@ -93,6 +111,16 @@ public class Sesion implements Serializable{
         this.comentarios = comentarios;
     }
 
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
+
+    
+   
     @Override
     public int hashCode() {
         int hash = 5;

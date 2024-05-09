@@ -27,13 +27,10 @@ and open the template in the editor.
                     <p:inputText value="#{usuarioController.persona.nombre}" required="true" requiredMessage="Nombre obligatorio" id="txtNombre"/>
                     <p:message for="txtNombre"/>
 
-                    <p:outputLabel value="Primer apellido:" for="txtApellido1"/>
-                    <p:inputText value="#{usuarioController.persona.apellido1}" required="true"  requiredMessage="Primer apellido obligatorio" id="txtApellido1"/>
-                    <p:message for="txtApellido1"/>
+                    <p:outputLabel value="Primer apellido:" for="txtApellido"/>
+                    <p:inputText value="#{usuarioController.persona.apellidos}" required="true"  requiredMessage="Primer apellido obligatorio" id="txtApellido"/>
+                    <p:message for="txtApellido"/>
                     
-                    <p:outputLabel value="Segundo apellido:" for="txtApellido2"/>
-                    <p:inputText value="#{usuarioController.persona.apellido2}" required="true"  requiredMessage="Segundo apellido obligatorio" id="txtApellido2"/>
-                    <p:message for="txtApellido2"/>
                     
                     <p:outputLabel value="Sexo: "/>
                     <p:selectOneButton id="sexo" value="#{usuarioController.persona.sexo}" required="true" requiredMessage="Especifica tu sexo">

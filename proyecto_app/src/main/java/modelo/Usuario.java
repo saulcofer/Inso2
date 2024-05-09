@@ -7,6 +7,7 @@ package modelo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,6 +16,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -31,7 +34,7 @@ public class Usuario implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)     // autogenerado
-    private int idUsuario;
+    private int idUser;
     
     @Column(name="Username")
     private String username;
@@ -50,11 +53,20 @@ public class Usuario implements Serializable{
     @JoinColumn(name="IdRol")
     @ManyToOne
     private Rol rol;
+    
+    @JoinTable(
+        name = "usuarios_sesiones",
+        joinColumns = @JoinColumn(name = "IdUser", nullable = false),
+        inverseJoinColumns = @JoinColumn(name="IdSesion", nullable = false) // pendiente de añadir columnas adicionales
+    )
+    
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Sesion> sesiones;
 
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 29 * hash + this.idUsuario;
+        hash = 29 * hash + this.idUser;
         hash = 29 * hash + Objects.hashCode(this.username);
         hash = 29 * hash + Objects.hashCode(this.password);
         hash = 29 * hash + Objects.hashCode(this.ultimaConexion);
@@ -75,7 +87,7 @@ public class Usuario implements Serializable{
             return false;
         }
         final Usuario other = (Usuario) obj;
-        if (this.idUsuario != other.idUsuario) {
+        if (this.idUser != other.idUser) {
             return false;
         }
         if (this.persona != other.persona) {
@@ -97,11 +109,11 @@ public class Usuario implements Serializable{
     }
 
     public int getIdUsuario() {
-        return idUsuario;
+        return idUser;
     }
 
     public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
+        this.idUser = idUsuario;
     }
 
     public String getUsername() {
@@ -144,9 +156,13 @@ public class Usuario implements Serializable{
         this.rol = aRol;
     }
 
-    public Object getUser() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Sesion> getSesiones() {
+        return sesiones;
+    }
+
+    public void setSesiones(List<Sesion> sesiones) {
+        this.sesiones = sesiones;
     }
     
-    
+  
 }

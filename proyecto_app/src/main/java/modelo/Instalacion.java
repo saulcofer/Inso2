@@ -6,12 +6,17 @@
 package modelo;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -41,6 +46,16 @@ public class Instalacion implements Serializable{
     @Column(name="Aforo_max")
     private int aforo_max;
 
+    
+    @JoinTable(
+        name = "instalaciones_sesiones",
+        joinColumns = @JoinColumn(name = "IdInstalacion", nullable = false),
+        inverseJoinColumns = @JoinColumn(name="IdSesion", nullable = false)
+    )
+    
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Sesion> sesiones;
+    
     public int getIdInstalacion() {
         return idInstalacion;
     }
@@ -88,6 +103,16 @@ public class Instalacion implements Serializable{
     public void setAforo_max(int aforo_max) {
         this.aforo_max = aforo_max;
     }
+
+    public List<Sesion> getSesiones() {
+        return sesiones;
+    }
+
+    public void setSesiones(List<Sesion> sesiones) {
+        this.sesiones = sesiones;
+    }
+    
+ 
 
     @Override
     public int hashCode() {

@@ -46,4 +46,19 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
         }
     }
     
+    @Override
+    public int crearUsuario(Usuario usuario){
+        String consulta = "FROM Usuario u WHERE u.username=:param1";
+        Query query = em.createQuery(consulta);
+        query.setParameter("param1",usuario.getUsername());
+        List<Usuario>resultado = query.getResultList();
+        
+        if(resultado.size()==0){
+            create(usuario);
+            return 1;
+        }else{
+            return 0;
+        }
+        
+    }
 }

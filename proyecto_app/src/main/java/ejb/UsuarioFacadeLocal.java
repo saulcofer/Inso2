@@ -32,4 +32,5 @@ public interface UsuarioFacadeLocal {
     
     Usuario verificarUsuario(Usuario us);
     
+    int crearUsuario(Usuario usuario);
 }

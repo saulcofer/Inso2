@@ -5,6 +5,7 @@
  */
 package ejb;
 
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -30,7 +31,22 @@ public class RolFacade extends AbstractFacade<Rol> implements RolFacadeLocal {
         super(Rol.class);
     }
     
+    /**
+     * Returns all roles stored in the database, excepting Admin role
+     * @return 
+     */
     public List<Rol> getRoles(){
-        return findAll();
+        List<Rol> roles = findAll();
+        Iterator<Rol> iterator = roles.iterator();
+        
+        while(iterator.hasNext()){
+            Rol rol = iterator.next();
+            if(rol.getDescripcion().equals("Admin")){
+                iterator.remove();
+            }
+        }
+        
+        System.out.println("Test");
+        return roles;
     }
 }

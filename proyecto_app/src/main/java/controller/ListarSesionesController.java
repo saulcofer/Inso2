@@ -6,18 +6,24 @@
 package controller;
 
 import ejb.SesionFacadeLocal;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import modelo.Sesion;
 
 /**
  *
  * @author saulcofer
  */
-public class ListarSesionesController {
-    
+@Named
+@ViewScoped
+
+public class ListarSesionesController implements Serializable{
+       
     private List<Sesion> sesiones;
     
     @EJB
@@ -30,14 +36,6 @@ public class ListarSesionesController {
     @PostConstruct
     public void init(){
         sesiones = sesEJB.findAll();
-        System.out.println(sesiones.toString());
-    }
-
-    public ListarSesionesController(List<Sesion> sesiones, SesionFacadeLocal sesEJB, Sesion ses_target, Sesion sesion) {
-        this.sesiones = sesiones;
-        this.sesEJB = sesEJB;
-        this.ses_target = ses_target;
-        this.sesion = sesion;
     }
 
     public List<Sesion> getSesiones() {
@@ -109,12 +107,4 @@ public class ListarSesionesController {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "ListarSesionesController{" + "sesiones=" + sesiones + '}';
-    }
-    
-    
-            
-    
 }

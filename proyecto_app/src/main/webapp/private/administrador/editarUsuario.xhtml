@@ -30,6 +30,20 @@
                                 <h:outputText value="#{user.persona.nombre}, #{user.persona.apellidos}" />
                             </p:column>
                         
+                            <p:column headerText="Modificar Usuario" style="width:100px">
+                                <p:commandLink actionListener="#{editarUsuarioController.establecerUsuarioModificar(user)}"
+                                               oncomplete="PF('wdialogo1').show();" update=":frmDialogo:dialogo1">
+                                    <h:graphicImage library="img" name="edit_icon.png" width="30px"/>
+                                </p:commandLink>
+                            </p:column>
+
+                            <p:column headerText="Eliminar Usuario" style="width:100px">
+                                <p:commandLink actionListener="#{editarUsuarioController.establecerUsuarioEliminar(user)}"
+                                               oncomplete="PF('wdialogo1').show();" update=":frmDialogo:dialogo1">
+                                    <h:graphicImage library="img" name="delete-icon.png" width="30px"/>
+                                </p:commandLink>
+                            </p:column>
+
                     </p:dataTable>
                 </h:form>
                 
@@ -58,7 +72,13 @@
                                 <f:selectItem itemLabel="Femenino" itemValue='F'/>
                             </p:selectOneMenu>                          
                             
-                             
+                            <p:commandButton value="Eliminar" actionListener="#{editarUsuarioController.eliminarUsuario()}" update=":frmPrincipal:tablaUsuarios" 
+                                             oncomplete="PF('wdialogo1').hide();" rendered="#{editarUsuarioController.accion == 'E'}" />
+                            
+                            <p:commandButton value="Modificar" actionListener="#{editarUsuarioController.modificarUsuario()}" update=":frmPrincipal:tablaUsuarios" 
+                                             oncomplete="PF('wdialogo1').hide();" rendered="#{editarUsuarioController.accion == 'M'}" />
+                            
+                            
                             <!-- El botón de cancelar se ha quitado porque daba problemas en la actualización del widge,
                             en cambio si se cierra la pestaña directamente no da problemas-->
                         </p:panelGrid>

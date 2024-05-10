@@ -5,10 +5,13 @@
  */
 package ejb;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import modelo.Sesion;
+import modelo.Usuario;
 
 /**
  *
@@ -27,6 +30,16 @@ public class SesionFacade extends AbstractFacade<Sesion> implements SesionFacade
 
     public SesionFacade() {
         super(Sesion.class);
+    }
+    
+    public List<Sesion> obtenerSesionesUsuario() {
+   
+        String consulta = "SELECT * FROM sesiones";
+        Query query = em.createQuery(consulta);
+        List<Sesion> resultado = query.getResultList();
+        
+        return resultado;
+
     }
     
 }

@@ -4,6 +4,8 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
+
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -17,42 +19,62 @@ and open the template in the editor.
 
             <ui:define name="content">
                 <h:form>
-                    <p:messages id="msgAction" severity="info"/>
-                    <p:dataTable var="ses" value="#{ListarSesionesController.sesiones}" rows="10"
+                    <p:dataTable id = "tablaSesiones" var="sesion" value="#{listarSesionesController.sesiones}" rows="10"
                                  paginator="true" paginatorPosition="both"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                                  rowsPerPageTemplate="5,10,{ShowAll|'All'}">
 
                         <p:column headerText="Título">
-                            <h:outputText value="#{ses.titulo}" />
+                            <h:outputText value="#{sesion.titulo}" />
                         </p:column>
                         
                         <p:column headerText="Cuerpo" style="width:150px">
-                            <h:outputText value="#{ses.Cuerpo}">
+                            <h:outputText value="#{sesion.cuerpo}">
                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
                             </h:outputText>
                         </p:column>
                         
                         <p:column headerText="Fecha">
-                            <h:outputText value="#{ses.fecha}" />
+                            <h:outputText value="#{sesion.fecha}" />
                         </p:column>
 
                         <p:column headerText="Valoracion media">
-                            <h:outputText value="#{ses.valoracion}" />
+                            <h:outputText value="#{sesion.valoracion}" />
                         </p:column>
                         
                         <p:column headerText="Comentarios">
-                            <h:outputText value="#{ses.comentarios}" />
+                            <h:outputText value="#{sesion.comentarios}" />
                         </p:column>
                         
-                        <p:column headerText="Reservar Sesion" style="width:100px">
-                            <h:commandLink action="editarPublicacion" 
-                                           actionListener="#{listarSesionesController.setSes_target(ses)}">
-                                <h:graphicImage library="img" name="edit_icon.png" width="30px"/>
-                            </h:commandLink>
+                        <p:column headerText="Inscribirse" style="width:100px">
+                                <p:commandLink actionListener="#{editarUsuarioController.establecerUsuarioModificar(user)}"
+                                               oncomplete="PF('wdialogo1').show();" update=":frmDialogo:dialogo1">
+                                    <h:graphicImage library="img" name="edit_icon.png" width="30px"/>
+                                </p:commandLink>
                         </p:column>
                     </p:dataTable>
+                </h:form>
+                
+                <h:form id="frmDialogo">
+                    <p:dialog id="dialogo1" widgetVar="wdialogo1" modal="true" closeOnEscape="true" draggable="false" resizable="false" header="Inscripcion">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Nombre de Usuario" />
+                            <p:inputText value=""/>
+                            
+                            <p:outputLabel value="Nombre" />
+                            <p:inputText value=""/>
+
+                            <p:outputLabel value="Apellidos" />
+                            <p:inputText value=""/>     
+                            
+                            <p:commandButton value="Inscribirse" />
+                            
+                            
+                            <!-- El botón de cancelar se ha quitado porque daba problemas en la actualización del widge,
+                            en cambio si se cierra la pestaña directamente no da problemas-->
+                        </p:panelGrid>
+                    </p:dialog>
                 </h:form>
                 
             </ui:define>

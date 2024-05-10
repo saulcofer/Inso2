@@ -26,6 +26,8 @@ public interface SesionFacadeLocal {
 
     List<Sesion> findAll();
 
+    List<Sesion> obtenerSesionesUsuario();
+    
     List<Sesion> findRange(int[] range);
 
     int count();

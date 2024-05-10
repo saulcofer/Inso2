@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/template/newTemplate.xhtml">
+
+            <ui:define name="content">
+                <h:form id="frmPrincipal">
+                    <p:dataTable id="tablaUsuarios" var="user" value="#{editarUsuarioController.usuarios}" rows="10"
+                                 paginator="true" paginatorPosition="both"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                 rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+
+                            <p:column headerText="Username">
+                                <h:outputText value="#{user.username}" />
+                            </p:column>
+
+                            <p:column headerText="Descripción de rol">
+                                <h:outputText value="#{user.rol.descripcion}" />
+                            </p:column>
+
+                            <p:column headerText="Nombre completo">
+                                <h:outputText value="#{user.persona.nombre}, #{user.persona.apellidos}" />
+                            </p:column>
+                        
+                            <p:column headerText="Modificar Usuario" style="width:100px">
+                                <p:commandLink actionListener="#{editarUsuarioController.establecerUsuarioModificar(user)}"
+                                               oncomplete="PF('wdialogo1').show();" update=":frmDialogo:dialogo1">
+                                    <h:graphicImage library="img" name="edit_icon.png" width="30px"/>
+                                </p:commandLink>
+                            </p:column>
+
+                            <p:column headerText="Eliminar Usuario" style="width:100px">
+                                <p:commandLink actionListener="#{editarUsuarioController.establecerUsuarioEliminar(user)}"
+                                               oncomplete="PF('wdialogo1').show();" update=":frmDialogo:dialogo1">
+                                    <h:graphicImage library="img" name="delete-icon.png" width="30px"/>
+                                </p:commandLink>
+                            </p:column>
+
+                    </p:dataTable>
+                </h:form>
+                
+                
+                <h:form id="frmDialogo">
+                    <p:dialog id="dialogo1" widgetVar="wdialogo1" modal="true" closeOnEscape="true" draggable="false" resizable="false" header="Roles de la aplicacion">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Nombre de Usuario" />
+                            <p:inputText value="#{editarUsuarioController.usuario.username}"/>
+                            
+                            <p:outputLabel value="Contraseña" />
+                            <p:inputText value="#{editarUsuarioController.usuario.password}"/>
+                            
+                            <p:outputLabel value="Nombre" />
+                            <p:inputText value="#{editarUsuarioController.usuario.persona.nombre}"/>
+
+                            <p:outputLabel value="Apellidos" />
+                            <p:inputText value="#{editarUsuarioController.usuario.persona.apellidos}"/>     
+
+                            <p:outputLabel value="Fecha de Nacimiento" />
+                            <p:calendar value="#{editarUsuarioController.usuario.persona.fechaNacimiento}" showOn="button" locale="es" id="dateBirth"/>
+                            
+                            <p:outputLabel value="Sexo" />
+                            <p:selectOneMenu id="sexo" value="#{editarUsuarioController.usuario.persona.sexo}">
+                                <f:selectItem itemLabel="Masculino" itemValue='M'/>
+                                <f:selectItem itemLabel="Femenino" itemValue='F'/>
+                            </p:selectOneMenu>                          
+                            
+                            <p:commandButton value="Eliminar" actionListener="#{editarUsuarioController.eliminarUsuario()}" update=":frmPrincipal:tablaUsuarios" 
+                                             oncomplete="PF('wdialogo1').hide();" rendered="#{editarUsuarioController.accion == 'E'}" />
+                            
+                            <p:commandButton value="Modificar" actionListener="#{editarUsuarioController.modificarUsuario()}" update=":frmPrincipal:tablaUsuarios" 
+                                             oncomplete="PF('wdialogo1').hide();" rendered="#{editarUsuarioController.accion == 'M'}" />
+                            
+                            
+                            <!-- El botón de cancelar se ha quitado porque daba problemas en la actualización del widge,
+                            en cambio si se cierra la pestaña directamente no da problemas-->
+                        </p:panelGrid>
+                    </p:dialog>
+                </h:form>
+
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

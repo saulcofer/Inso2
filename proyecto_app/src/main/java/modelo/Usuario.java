@@ -46,8 +46,9 @@ public class Usuario implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     private Date ultimaConexion;
         
+    // CascadType.MERGE/REMOVE para que se actualice/borre la fila de Persona cuando se actualice/borre el usuario en la llamada a edit/remove
     @JoinColumn(name="IdPerson")
-    @OneToOne(cascade=CascadeType.PERSIST)
+    @OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE})
     private Persona persona;
     
     @JoinColumn(name="IdRol")

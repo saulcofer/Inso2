@@ -46,7 +46,6 @@ public class RolFacade extends AbstractFacade<Rol> implements RolFacadeLocal {
             }
         }
         
-        System.out.println("Test");
         return roles;
     }
 }

@@ -134,6 +134,7 @@ public class UsuarioController implements Serializable{
     
     
     public void insertarUsuario(){
+        String url;
         try{
             rol = obtenerRol(this.rol_elegido);
             usuario.setRol(rol);
@@ -141,6 +142,9 @@ public class UsuarioController implements Serializable{
             int resp = userEJB.crearUsuario(usuario);
             if(resp==0){
                 FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"El nombre de usuario ya existe",""));
+            }else{
+                url= FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath()+"/faces/private/principal.xhtml";
+                FacesContext.getCurrentInstance().getExternalContext().redirect(url);
             }
         }catch(Exception e){
             System.out.println("Error al insertar el usuario "+e.getMessage());

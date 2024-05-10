@@ -1,75 +1,73 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    
-    <h:head>
-        <title>Alta de Usuarios</title>
-    </h:head>
-    
-    <h:outputScript library="js" name="calendar_es.js"/>
-    
-    <h:body>
-        <h:form>
-            <p:messages id="msgPrincipal" severity="warn"/>
-            <p:fieldset legend="Datos personales">
 
-                <p:panelGrid columns="3">
+    <body>
 
-                    <p:outputLabel value="Nombre:" for="txtNombre"/>
-                    <p:inputText value="#{usuarioController.persona.nombre}" required="true" requiredMessage="Nombre obligatorio" id="txtNombre"/>
-                    <p:message for="txtNombre"/>
+        <ui:composition template="./../../WEB-INF/template/newTemplate.xhtml">
 
-                    <p:outputLabel value="Primer apellido:" for="txtApellido"/>
-                    <p:inputText value="#{usuarioController.persona.apellidos}" required="true"  requiredMessage="Primer apellido obligatorio" id="txtApellido"/>
-                    <p:message for="txtApellido"/>
-                    
-                    
-                    <p:outputLabel value="Sexo: "/>
-                    <p:selectOneButton id="sexo" value="#{usuarioController.persona.sexo}" required="true" requiredMessage="Especifica tu sexo">
-                        <f:selectItem itemLabel="Masculino" itemValue='M'/>
-                        <f:selectItem itemLabel="Femenino" itemValue='F'/>
-                    </p:selectOneButton>
-                    <p:message for="sexo"/>
-                    
-                    <p:outputLabel value="Fecha de nacimiento:" for="dateBirth"/>
-                    <p:calendar value="#{usuarioController.persona.fechaNacimiento}" showOn="button" locale="es" required="true"  requiredMessage="Fecha de nacimiento obligatoria" id="dateBirth"/>
-                    <p:message for="dateBirth"/>
+            <ui:define name="content">
+                <h:form>
+                    <p:messages id="msgPrincipal" severity="warn"/>
+                    <p:fieldset legend="Datos personales">
 
-                </p:panelGrid>
+                        <p:panelGrid columns="3">
 
-            </p:fieldset>
+                            <p:outputLabel value="Nombre:" for="txtNombre"/>
+                            <p:inputText value="#{usuarioController.persona.nombre}" required="true" requiredMessage="Nombre obligatorio" id="txtNombre"/>
+                            <p:message for="txtNombre"/>
 
-            <p:fieldset legend="Datos de acceso">
-                <p:panelGrid columns="3">
-                    <p:outputLabel value="Especifica tu rol: " for="roles"/>
-                    <p:selectOneMenu id="roles" value="#{usuarioController.rol_elegido}" required="true" requiredMessage="Rol obligatorio">
-                        <f:selectItems itemLabel="#{rol.descripcion}" value='#{usuarioController.roles}' itemValue="#{rol.descripcion}" var="rol"/>
-                    </p:selectOneMenu>
-                    <p:message for="roles"/>
-                    
-                    <p:outputLabel value="Nombre de usuario:" for="txtUsername"/>
-                    <p:inputText value="#{usuarioController.usuario.username}" required="true" requiredMessage="Es obligatorio especificar el nombre de usuario." id="txtUsername"/>
-                    <p:message for="txtUsername"/>
+                            <p:outputLabel value="Primer apellido:" for="txtApellido"/>
+                            <p:inputText value="#{usuarioController.persona.apellidos}" required="true"  requiredMessage="Primer apellido obligatorio" id="txtApellido"/>
+                            <p:message for="txtApellido"/>
 
-                    <p:outputLabel value="Password:" for="pw1"/>
-                    <p:password id="pw1" value="#{usuarioController.usuario.password}" match="pw2" toggleMask="true" redisplay="true" required="true"  requiredMessage="La contraseña es obligatoria"/>
-                    <p:message for="pw1"/>
 
-                    <p:outputLabel value="Repita contraseña:" for="pw2"/>
-                    <p:password id="pw2" value="#{usuarioController.usuario.password}" toggleMask="true" redisplay="true" required="true" requiredMessage="Es obligatorio repetir la contraseña."/>
-                    <p:message for="pw2"/>
-                </p:panelGrid>
-            </p:fieldset>
-            
-            <p:commandButton update="@form" value="Añadir" actionListener="#{usuarioController.insertarUsuario()}"/>
-        </h:form>
-    </h:body>
+                            <p:outputLabel value="Sexo: "/>
+                            <p:selectOneButton id="sexo" value="#{usuarioController.persona.sexo}" required="true" requiredMessage="Especifica tu sexo">
+                                <f:selectItem itemLabel="Masculino" itemValue='M'/>
+                                <f:selectItem itemLabel="Femenino" itemValue='F'/>
+                            </p:selectOneButton>
+                            <p:message for="sexo"/>
+
+                            <p:outputLabel value="Fecha de nacimiento:" for="dateBirth"/>
+                            <p:calendar value="#{usuarioController.persona.fechaNacimiento}" showOn="button" locale="es" required="true"  requiredMessage="Fecha de nacimiento obligatoria" id="dateBirth"/>
+                            <p:message for="dateBirth"/>
+
+                        </p:panelGrid>
+
+                    </p:fieldset>
+
+                    <p:fieldset legend="Datos de acceso">
+                        <p:panelGrid columns="3">
+                            <p:outputLabel value="Especifica tu rol: " for="roles"/>
+                            <p:selectOneMenu id="roles" value="#{usuarioController.rol_elegido}" required="true" requiredMessage="Rol obligatorio">
+                                <f:selectItems itemLabel="#{rol.descripcion}" value='#{usuarioController.roles}' itemValue="#{rol.descripcion}" var="rol"/>
+                            </p:selectOneMenu>
+                            <p:message for="roles"/>
+
+                            <p:outputLabel value="Nombre de usuario:" for="txtUsername"/>
+                            <p:inputText value="#{usuarioController.usuario.username}" required="true" requiredMessage="Es obligatorio especificar el nombre de usuario." id="txtUsername"/>
+                            <p:message for="txtUsername"/>
+
+                            <p:outputLabel value="Password:" for="pw1"/>
+                            <p:password id="pw1" value="#{usuarioController.usuario.password}" match="pw2" toggleMask="true" redisplay="true" required="true"  requiredMessage="La contraseña es obligatoria"/>
+                            <p:message for="pw1"/>
+
+                            <p:outputLabel value="Repita contraseña:" for="pw2"/>
+                            <p:password id="pw2" value="#{usuarioController.usuario.password}" toggleMask="true" redisplay="true" required="true" requiredMessage="Es obligatorio repetir la contraseña."/>
+                            <p:message for="pw2"/>
+                        </p:panelGrid>
+                    </p:fieldset>
+
+                    <p:commandButton update="@form" value="Añadir" actionListener="#{usuarioController.insertarUsuario()}"/>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
 </html>

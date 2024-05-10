@@ -28,7 +28,7 @@ public class Persona implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)     // autogenerado
-    private int idPerson;
+    private int idPersona;
     
     @Column(name="Nombre")
     private String nombre;
@@ -44,11 +44,11 @@ public class Persona implements Serializable{
     private String sexo;
 
     public int getIdPersona() {
-        return idPerson;
+        return idPersona;
     }
 
     public void setIdPersona(int idPersona) {
-        this.idPerson = idPersona;
+        this.idPersona = idPersona;
     }
 
     public String getNombre() {
@@ -86,7 +86,7 @@ public class Persona implements Serializable{
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 23 * hash + this.idPerson;
+        hash = 23 * hash + this.idPersona;
         hash = 23 * hash + Objects.hashCode(this.nombre);
         hash = 23 * hash + Objects.hashCode(this.apellidos);
         hash = 23 * hash + Objects.hashCode(this.fechaNacimiento);
@@ -106,7 +106,7 @@ public class Persona implements Serializable{
             return false;
         }
         final Persona other = (Persona) obj;
-        if (this.idPerson != other.idPerson) {
+        if (this.idPersona != other.idPersona) {
             return false;
         }
         if (!Objects.equals(this.nombre, other.nombre)) {

@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `menus` (
 
 -- Volcando datos para la tabla proyecto_insoii.menus: ~24 rows (aproximadamente)
 INSERT INTO `menus` (`IdMenu`, `Nombre`, `Tipo`, `IdRol`, `IdMenu_Menu`, `Url`) VALUES
-	(1, 'Usuarios', 'S', 3, NULL, NULL),
+	(1proyecto_INSOII, 'Usuarios', 'S', 3, NULL, NULL),
 	(2, 'Nuevo', 'I', 3, 1, '/faces/private/administrador/altausuario.xhtml'),
 	(3, 'Editar', 'I', 3, 1, '/faces/private/administrador/editarUsuario.xhtml'),
 	(5, 'Sesiones', 'S', 3, NULL, NULL),

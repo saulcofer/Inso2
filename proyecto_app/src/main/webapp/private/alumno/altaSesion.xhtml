@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Crear Sesión</title>
+</h:head>
+<h:body>
+    <h1>Crear Sesión</h1>
+    <h:form id="sesionForm">
+        <p:messages id="messages" showDetail="true" />
+        
+        <p:inputText value="#{AltaSesionController.sesion.titulo}" placeholder="Título" />
+        <p:inputTextarea value="#{AltaSesionController.sesion.cuerpo}" placeholder="Cuerpo" />
+        <p:calendar value="#{AltaSesionController.sesion.fecha}" placeholder="Fecha" />
+        <p:inputText value="#{AltaSesionController.sesion.valoracion}" placeholder="Valoración Media" />
+        <p:inputTextarea value="#{AltaSesionController.sesion.comentarios}" placeholder="Comentarios" />
+        
+        <p:commandButton value="Guardar" action="#{AltaSesionController.guardarSesion}" update="sesionForm" />
+    </h:form>
+</h:body>
+</html>

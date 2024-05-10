@@ -34,7 +34,7 @@ public class Usuario implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)     // autogenerado
-    private int idUser;
+    private int idUsuario;
     
     @Column(name="Username")
     private String username;
@@ -47,7 +47,7 @@ public class Usuario implements Serializable{
     private Date ultimaConexion;
         
     // CascadType.MERGE/REMOVE para que se actualice/borre la fila de Persona cuando se actualice/borre el usuario en la llamada a edit/remove
-    @JoinColumn(name="IdPerson")
+    @JoinColumn(name="IdPersona")
     @OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE})
     private Persona persona;
     
@@ -57,7 +57,7 @@ public class Usuario implements Serializable{
     
     @JoinTable(
         name = "usuarios_sesiones",
-        joinColumns = @JoinColumn(name = "IdUser", nullable = false),
+        joinColumns = @JoinColumn(name = "IdUsuario", nullable = false),
         inverseJoinColumns = @JoinColumn(name="IdSesion", nullable = false) // pendiente de añadir columnas adicionales
     )
     
@@ -67,7 +67,7 @@ public class Usuario implements Serializable{
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 29 * hash + this.idUser;
+        hash = 29 * hash + this.idUsuario;
         hash = 29 * hash + Objects.hashCode(this.username);
         hash = 29 * hash + Objects.hashCode(this.password);
         hash = 29 * hash + Objects.hashCode(this.ultimaConexion);
@@ -88,7 +88,7 @@ public class Usuario implements Serializable{
             return false;
         }
         final Usuario other = (Usuario) obj;
-        if (this.idUser != other.idUser) {
+        if (this.idUsuario != other.idUsuario) {
             return false;
         }
         if (this.persona != other.persona) {
@@ -110,11 +110,11 @@ public class Usuario implements Serializable{
     }
 
     public int getIdUsuario() {
-        return idUser;
+        return idUsuario;
     }
 
     public void setIdUsuario(int idUsuario) {
-        this.idUser = idUsuario;
+        this.idUsuario = idUsuario;
     }
 
     public String getUsername() {

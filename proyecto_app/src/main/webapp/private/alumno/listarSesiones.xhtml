@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/template/newTemplate.xhtml">
+
+            <ui:define name="content">
+                <h:form>
+                    <p:messages id="msgAction" severity="info"/>
+                    <p:dataTable var="ses" value="#{ListarSesionesController.sesiones}" rows="10"
+                                 paginator="true" paginatorPosition="both"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                 rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+
+                        <p:column headerText="Título">
+                            <h:outputText value="#{ses.titulo}" />
+                        </p:column>
+                        
+                        <p:column headerText="Cuerpo" style="width:150px">
+                            <h:outputText value="#{ses.Cuerpo}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        
+                        <p:column headerText="Fecha">
+                            <h:outputText value="#{ses.fecha}" />
+                        </p:column>
+
+                        <p:column headerText="Valoracion media">
+                            <h:outputText value="#{ses.valoracion}" />
+                        </p:column>
+                        
+                        <p:column headerText="Comentarios">
+                            <h:outputText value="#{ses.comentarios}" />
+                        </p:column>
+                        
+                        <p:column headerText="Reservar Sesion" style="width:100px">
+                            <h:commandLink action="editarPublicacion" 
+                                           actionListener="#{listarSesionesController.setSes_target(ses)}">
+                                <h:graphicImage library="img" name="edit_icon.png" width="30px"/>
+                            </h:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

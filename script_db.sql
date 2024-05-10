@@ -19,6 +19,16 @@
 CREATE DATABASE IF NOT EXISTS `proyecto_insoii` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `proyecto_insoii`;
 
+-- Volcando estructura para tabla proyecto_insoii.categorias
+CREATE TABLE IF NOT EXISTS `categorias` (
+  `IDCATEGORIA` int NOT NULL AUTO_INCREMENT,
+  `Estado` tinyint(1) DEFAULT '0',
+  `Nombre` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`IDCATEGORIA`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Volcando datos para la tabla proyecto_insoii.categorias: ~0 rows (aproximadamente)
+
 -- Volcando estructura para tabla proyecto_insoii.instalaciones
 CREATE TABLE IF NOT EXISTS `instalaciones` (
   `IdInstalacion` int NOT NULL AUTO_INCREMENT,
@@ -61,12 +71,11 @@ CREATE TABLE IF NOT EXISTS `menus` (
   CONSTRAINT `FK_Menu_Rol` FOREIGN KEY (`IdRol`) REFERENCES `roles` (`IdRol`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3;
 
--- Volcando datos para la tabla proyecto_insoii.menus: ~27 rows (aproximadamente)
+-- Volcando datos para la tabla proyecto_insoii.menus: ~24 rows (aproximadamente)
 INSERT INTO `menus` (`IdMenu`, `Nombre`, `Tipo`, `IdRol`, `IdMenu_Menu`, `Url`) VALUES
 	(1, 'Usuarios', 'S', 3, NULL, NULL),
-	(2, 'Nuevo', 'I', 3, 1, '/privado/administrador/AltaUsuario.softwareII'),
-	(3, 'Modificar', 'I', 3, 1, '/privado/administrador/ModificarUsuario.softwareII'),
-	(4, 'Eliminar', 'I', 3, 1, '/privado/administrador/EliminarUsuario.softwareII'),
+	(2, 'Nuevo', 'I', 3, 1, '/faces/private/administrador/altausuario.xhtml'),
+	(3, 'Editar', 'I', 3, 1, '/faces/private/administrador/editarUsuario.xhtml'),
 	(5, 'Sesiones', 'S', 3, NULL, NULL),
 	(6, 'Nuevo', 'I', 3, 5, '/privado/administrador/AltaRol.softwareII'),
 	(7, 'Modificar', 'I', 3, 5, '/privado/administrador/ModificarRol.softwareII'),
@@ -99,13 +108,31 @@ CREATE TABLE IF NOT EXISTS `personas` (
   `FechaNacimiento` datetime NOT NULL,
   `Sexo` varchar(1) NOT NULL,
   PRIMARY KEY (`IdPerson`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Volcando datos para la tabla proyecto_insoii.personas: ~3 rows (aproximadamente)
 INSERT INTO `personas` (`IdPerson`, `Nombre`, `Apellidos`, `FechaNacimiento`, `Sexo`) VALUES
 	(1, 'Maria', 'Fernandez Rodriguez', '1990-01-01 00:00:00', 'F'),
 	(2, 'Antonio', 'García Rodríguez', '1995-05-10 00:00:00', 'M'),
-	(3, 'Gabriel', 'García Pérez', '1998-12-15 00:00:00', 'M');
+	(3, 'Gabriel', 'García Pérez', '1998-12-15 00:00:00', 'M'),
+	(4, 'anuelAAA', 'AAAAAAAAAAAA', '2024-05-01 00:00:00', 'M');
+
+-- Volcando estructura para tabla proyecto_insoii.publicaciones
+CREATE TABLE IF NOT EXISTS `publicaciones` (
+  `IDPUBLICACION` int NOT NULL AUTO_INCREMENT,
+  `ComentarioProfesor` varchar(255) DEFAULT NULL,
+  `Cuerpo` varchar(255) DEFAULT NULL,
+  `Fecha` datetime DEFAULT NULL,
+  `Titulo` varchar(255) DEFAULT NULL,
+  `Valoracion` int DEFAULT NULL,
+  `IdCategoria` int DEFAULT NULL,
+  `IdPersona` int DEFAULT NULL,
+  PRIMARY KEY (`IDPUBLICACION`),
+  KEY `FK_publicaciones_IdCategoria` (`IdCategoria`),
+  CONSTRAINT `FK_publicaciones_IdCategoria` FOREIGN KEY (`IdCategoria`) REFERENCES `categorias` (`IDCATEGORIA`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Volcando datos para la tabla proyecto_insoii.publicaciones: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla proyecto_insoii.roles
 CREATE TABLE IF NOT EXISTS `roles` (
@@ -147,13 +174,14 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   KEY `IdRol` (`IdRol`),
   CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`IdPerson`) REFERENCES `personas` (`IdPerson`),
   CONSTRAINT `usuarios_ibfk_2` FOREIGN KEY (`IdRol`) REFERENCES `roles` (`IdRol`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Volcando datos para la tabla proyecto_insoii.usuarios: ~3 rows (aproximadamente)
 INSERT INTO `usuarios` (`IdUser`, `Username`, `Password`, `UltimaConexion`, `IdPerson`, `IdRol`) VALUES
 	(1, 'Profesor', 'Profesor', NULL, 1, 1),
 	(2, 'Alumno', 'Alumno', '2018-01-27 00:03:56', 2, 2),
-	(3, 'Admin', 'Admin', '2018-01-31 17:34:43', 3, 3);
+	(3, 'Admin', 'Admin', '2018-01-31 17:34:43', 3, 3),
+	(4, 'anuelAA', '123', NULL, 4, 1);
 
 -- Volcando estructura para tabla proyecto_insoii.usuarios_sesiones
 CREATE TABLE IF NOT EXISTS `usuarios_sesiones` (

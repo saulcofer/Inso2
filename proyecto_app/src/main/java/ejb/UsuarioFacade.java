@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import modelo.Usuario;
 
 /**
@@ -60,5 +61,17 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
             return 0;
         }
         
+    }
+
+    @Override
+    public Usuario buscarPorNombreUsuario(String nombreUsuario) {
+        TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u WHERE u.username = :username", Usuario.class);
+        query.setParameter("username", nombreUsuario);
+        try {
+            return query.getSingleResult();
+        } catch (Exception e) {
+            // Manejar la excepción si el usuario no es encontrado
+            return null; // O lanzar una excepción personalizada, según lo que necesites
+        }
     }
 }

@@ -32,5 +32,7 @@ public interface UsuarioFacadeLocal {
     
     Usuario verificarUsuario(Usuario us);
     
+    Usuario buscarPorNombreUsuario(String nombreUsuario);
+        
     int crearUsuario(Usuario usuario);
 }

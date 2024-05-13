@@ -132,6 +132,10 @@ public class UsuarioController implements Serializable{
         return result;
     }
     
+    public void establecerUsuario(){
+        this.usuario=usuario;
+    }
+    
     
     public void insertarUsuario(){
         String url;
@@ -149,6 +153,29 @@ public class UsuarioController implements Serializable{
         }catch(Exception e){
             System.out.println("Error al insertar el usuario "+e.getMessage());
         }
+    }
+    
+   
+    public void cargarDatosUsuario() {
+        // Suponiendo que tienes algún mecanismo para obtener el nombre de usuario actualmente autenticado
+        String nombreUsuario = obtenerNombreUsuarioAutenticado();
+
+        // Buscar el usuario por su nombre de usuario
+        usuario = userEJB.buscarPorNombreUsuario(nombreUsuario);
+
+        // Si encontramos al usuario, podemos obtener la persona asociada
+        if (usuario != null) {
+            persona = usuario.getPersona();
+        }
+    }
+
+    // Método para obtener el nombre de usuario del usuario actualmente autenticado
+    private String obtenerNombreUsuarioAutenticado() {
+        // Aquí debes implementar la lógica para obtener el nombre de usuario del usuario autenticado
+        // Podría ser desde la sesión, desde un servicio de autenticación, etc.
+        // Por ejemplo:
+        FacesContext context = FacesContext.getCurrentInstance();
+        return context.getExternalContext().getRemoteUser();
     }
     
 }

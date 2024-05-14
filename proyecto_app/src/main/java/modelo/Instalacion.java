@@ -47,13 +47,7 @@ public class Instalacion implements Serializable{
     private int aforo_max;
 
     
-    @JoinTable(
-        name = "instalaciones_sesiones",
-        joinColumns = @JoinColumn(name = "IdInstalacion", nullable = false),
-        inverseJoinColumns = @JoinColumn(name="IdSesion", nullable = false)
-    )
-    
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "instalaciones")
     private List<Sesion> sesiones;
     
     public int getIdInstalacion() {

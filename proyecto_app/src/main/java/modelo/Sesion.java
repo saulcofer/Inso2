@@ -9,12 +9,14 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -47,10 +49,21 @@ public class Sesion implements Serializable{
     @Column(name="Comentarios")
     private String comentarios;
     
-    @ManyToMany(mappedBy = "sesiones")
+    
+    @JoinTable(
+        name = "usuarios_sesiones",
+        joinColumns = @JoinColumn(name = "IdSesion", nullable = false),
+        inverseJoinColumns = @JoinColumn(name="IdUser", nullable = false) // pendiente de añadir columnas adicionales
+    )    
+    @ManyToMany
     private List<Usuario> usuarios;
     
-    @ManyToMany(mappedBy = "sesiones")
+    @JoinTable(
+        name = "instalaciones_sesiones",
+        joinColumns = @JoinColumn(name = "IdSesion", nullable = false),
+        inverseJoinColumns = @JoinColumn(name="IdInstalacion", nullable = false) // pendiente de añadir columnas adicionales
+    )    
+    @ManyToMany(cascade = {CascadeType.PERSIST})
     private List<Instalacion> instalaciones;
 
     public List<Instalacion> getInstalaciones() {

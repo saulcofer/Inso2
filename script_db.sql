@@ -19,16 +19,6 @@
 CREATE DATABASE IF NOT EXISTS `proyecto_insoii` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `proyecto_insoii`;
 
--- Volcando estructura para tabla proyecto_insoii.categorias
-CREATE TABLE IF NOT EXISTS `categorias` (
-  `IDCATEGORIA` int NOT NULL AUTO_INCREMENT,
-  `Estado` tinyint(1) DEFAULT '0',
-  `Nombre` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`IDCATEGORIA`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- Volcando datos para la tabla proyecto_insoii.categorias: ~0 rows (aproximadamente)
-
 -- Volcando estructura para tabla proyecto_insoii.instalaciones
 CREATE TABLE IF NOT EXISTS `instalaciones` (
   `IdInstalacion` int NOT NULL AUTO_INCREMENT,
@@ -71,9 +61,9 @@ CREATE TABLE IF NOT EXISTS `menus` (
   CONSTRAINT `FK_Menu_Rol` FOREIGN KEY (`IdRol`) REFERENCES `roles` (`IdRol`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3;
 
--- Volcando datos para la tabla proyecto_insoii.menus: ~24 rows (aproximadamente)
+-- Volcando datos para la tabla proyecto_insoii.menus: ~26 rows (aproximadamente)
 INSERT INTO `menus` (`IdMenu`, `Nombre`, `Tipo`, `IdRol`, `IdMenu_Menu`, `Url`) VALUES
-	(1proyecto_INSOII, 'Usuarios', 'S', 3, NULL, NULL),
+	(1, 'Usuarios', 'S', 3, NULL, NULL),
 	(2, 'Nuevo', 'I', 3, 1, '/faces/private/administrador/altausuario.xhtml'),
 	(3, 'Editar', 'I', 3, 1, '/faces/private/administrador/editarUsuario.xhtml'),
 	(5, 'Sesiones', 'S', 3, NULL, NULL),
@@ -85,8 +75,8 @@ INSERT INTO `menus` (`IdMenu`, `Nombre`, `Tipo`, `IdRol`, `IdMenu_Menu`, `Url`) 
 	(11, 'Modificar', 'I', 2, 9, '/privado/alumno/ModificarPublicacion.softwareII'),
 	(12, 'Eliminar', 'I', 2, 9, '/privado//alumno/EliminarPublicacion.softwareII'),
 	(13, 'Listar sesiones', 'S', 2, NULL, ''),
-	(14, 'Sesiones', 'S', 1, NULL, NULL),
-	(15, 'Leer', 'I', 1, 14, '/privado/profesor/ListarYFiltrarsesiones.softwareII'),
+	(14, 'Sesiones', 'S', 1, NULL, ''),
+	(15, 'Leer', 'I', 1, 14, '/faces/private/profesor/SesionesEntrenador.xhtml'),
 	(16, 'Eliminar', 'I', 1, 14, NULL),
 	(17, 'Comentar', 'I', 1, NULL, '/privado/profesor/ComentarPublicacion.softwareII'),
 	(18, 'Valorar', 'I', 1, NULL, NULL),
@@ -110,29 +100,12 @@ CREATE TABLE IF NOT EXISTS `personas` (
   PRIMARY KEY (`IdPerson`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla proyecto_insoii.personas: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla proyecto_insoii.personas: ~4 rows (aproximadamente)
 INSERT INTO `personas` (`IdPerson`, `Nombre`, `Apellidos`, `FechaNacimiento`, `Sexo`) VALUES
-	(1, 'Maria', 'Fernandez Rodriguez', '1990-01-01 00:00:00', 'F'),
+	(1, 'Messi', 'Messi', '2024-05-14 02:20:49', 'M'),
 	(2, 'Antonio', 'García Rodríguez', '1995-05-10 00:00:00', 'M'),
 	(3, 'Gabriel', 'García Pérez', '1998-12-15 00:00:00', 'M'),
 	(4, 'anuelAAA', 'AAAAAAAAAAAA', '2024-05-01 00:00:00', 'M');
-
--- Volcando estructura para tabla proyecto_insoii.publicaciones
-CREATE TABLE IF NOT EXISTS `publicaciones` (
-  `IDPUBLICACION` int NOT NULL AUTO_INCREMENT,
-  `ComentarioProfesor` varchar(255) DEFAULT NULL,
-  `Cuerpo` varchar(255) DEFAULT NULL,
-  `Fecha` datetime DEFAULT NULL,
-  `Titulo` varchar(255) DEFAULT NULL,
-  `Valoracion` int DEFAULT NULL,
-  `IdCategoria` int DEFAULT NULL,
-  `IdPersona` int DEFAULT NULL,
-  PRIMARY KEY (`IDPUBLICACION`),
-  KEY `FK_publicaciones_IdCategoria` (`IdCategoria`),
-  CONSTRAINT `FK_publicaciones_IdCategoria` FOREIGN KEY (`IdCategoria`) REFERENCES `categorias` (`IDCATEGORIA`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- Volcando datos para la tabla proyecto_insoii.publicaciones: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla proyecto_insoii.roles
 CREATE TABLE IF NOT EXISTS `roles` (
@@ -157,9 +130,12 @@ CREATE TABLE IF NOT EXISTS `sesiones` (
   `Valoracion_media` decimal(10,2) DEFAULT NULL,
   `Comentarios` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`IdSesion`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla proyecto_insoii.sesiones: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla proyecto_insoii.sesiones: ~2 rows (aproximadamente)
+INSERT INTO `sesiones` (`IdSesion`, `Titulo`, `Cuerpo`, `Fecha`, `Valoracion_media`, `Comentarios`) VALUES
+	(6, 'Messi', 'enano', '2024-05-15 00:00:00', 0.00, NULL),
+	(7, 'cr7', 'cabra', '2024-05-18 00:00:00', 0.00, NULL);
 
 -- Volcando estructura para tabla proyecto_insoii.usuarios
 CREATE TABLE IF NOT EXISTS `usuarios` (
@@ -176,9 +152,9 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   CONSTRAINT `usuarios_ibfk_2` FOREIGN KEY (`IdRol`) REFERENCES `roles` (`IdRol`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla proyecto_insoii.usuarios: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla proyecto_insoii.usuarios: ~4 rows (aproximadamente)
 INSERT INTO `usuarios` (`IdUser`, `Username`, `Password`, `UltimaConexion`, `IdPerson`, `IdRol`) VALUES
-	(1, 'Profesor', 'Profesor', NULL, 1, 1),
+	(1, 'Entrenador', 'Entre', NULL, 1, 1),
 	(2, 'Alumno', 'Alumno', '2018-01-27 00:03:56', 2, 2),
 	(3, 'Admin', 'Admin', '2018-01-31 17:34:43', 3, 3),
 	(4, 'anuelAA', '123', NULL, 4, 1);
@@ -196,9 +172,12 @@ CREATE TABLE IF NOT EXISTS `usuarios_sesiones` (
   KEY `IdUser` (`IdUser`),
   CONSTRAINT `usuarios_sesiones_ibfk_1` FOREIGN KEY (`IdSesion`) REFERENCES `sesiones` (`IdSesion`),
   CONSTRAINT `usuarios_sesiones_ibfk_2` FOREIGN KEY (`IdUser`) REFERENCES `usuarios` (`IdUser`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla proyecto_insoii.usuarios_sesiones: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla proyecto_insoii.usuarios_sesiones: ~2 rows (aproximadamente)
+INSERT INTO `usuarios_sesiones` (`Id`, `IdSesion`, `IdUser`, `Valoracion`, `Comentarios`, `Fecha_hora`) VALUES
+	(4, 6, 1, NULL, NULL, '2024-05-14 02:26:15'),
+	(5, 7, 1, NULL, NULL, '2024-05-14 02:26:46');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

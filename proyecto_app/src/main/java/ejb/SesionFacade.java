@@ -32,8 +32,7 @@ public class SesionFacade extends AbstractFacade<Sesion> implements SesionFacade
         super(Sesion.class);
     }
     
-    public List<Sesion> obtenerSesionesUsuario() {
-   
+    public List<Sesion> obtenerSesionesUsuario() {   
         String consulta = "SELECT * FROM sesiones";
         Query query = em.createQuery(consulta);
         List<Sesion> resultado = query.getResultList();
@@ -41,5 +40,11 @@ public class SesionFacade extends AbstractFacade<Sesion> implements SesionFacade
         return resultado;
 
     }
-    
+
+    public void desasociarSesionDeUsuarios(Sesion sesion, Usuario u) {
+        Query query = em.createQuery("UPDATE Usuario u SET u.sesiones = NULL WHERE :sesion MEMBER OF u.sesiones");
+        query.setParameter("sesion", sesion);
+        query.setParameter("Usuario", u);
+        query.executeUpdate();
+    }
 }

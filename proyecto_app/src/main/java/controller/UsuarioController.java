@@ -161,7 +161,8 @@ public class UsuarioController implements Serializable{
         String nombreUsuario = obtenerNombreUsuarioAutenticado();
 
         // Buscar el usuario por su nombre de usuario
-        usuario = userEJB.buscarPorNombreUsuario(nombreUsuario);
+        usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+                 System.out.println(this.usuario);
 
         // Si encontramos al usuario, podemos obtener la persona asociada
         if (usuario != null) {

@@ -79,7 +79,7 @@ INSERT INTO `menus` (`IdMenu`, `Nombre`, `Tipo`, `IdRol`, `IdMenu_Menu`, `Url`) 
 	(7, 'Editar', 'I', 3, 5, '/faces/private/administrador/EditarSesion.xhtml'),
 	(13, 'Listar sesiones', 'S', 2, NULL, ''),
 	(14, 'Sesiones', 'S', 1, NULL, ''),
-	(15, 'Mis sesiones', 'I', 1, 14, '/faces/private/profesor/sesionesEntrenador.xhtml'),
+	(15, 'Mis sesiones', 'I', 1, 14, '/faces/private/profesor/SesionesEntrenador.xhtml'),
 	(22, 'Instalaciones', 'S', 3, NULL, NULL),
 	(23, 'Nueva', 'I', 3, 22, '/faces/private/administrador/AltaInstalacion.xhtml'),
 	(24, 'Editar', 'I', 3, 22, '/faces/private/administrador/EditarInstalacion.xhtml'),
@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `sesiones` (
   PRIMARY KEY (`IdSesion`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla proyecto_insoii.sesiones: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla proyecto_insoii.sesiones: ~0 rows (aproximadamente)
 INSERT INTO `sesiones` (`IdSesion`, `Titulo`, `Cuerpo`, `Fecha`, `Valoracion_media`, `Comentarios`) VALUES
 	(6, 'Messi', 'enano', '2024-05-15 00:00:00', 0.00, NULL),
 	(7, 'cr7', 'cabra', '2024-05-18 00:00:00', 0.00, NULL);
@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   CONSTRAINT `usuarios_ibfk_2` FOREIGN KEY (`IdRol`) REFERENCES `roles` (`IdRol`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla proyecto_insoii.usuarios: ~4 rows (aproximadamente)
+-- Volcando datos para la tabla proyecto_insoii.usuarios: ~0 rows (aproximadamente)
 INSERT INTO `usuarios` (`IdUser`, `Username`, `Password`, `UltimaConexion`, `IdPerson`, `IdRol`) VALUES
 	(1, 'Entrenador', 'Entrenador', NULL, 1, 1),
 	(2, 'Alumno', 'Alumno', '2018-01-27 00:03:56', 2, 2),

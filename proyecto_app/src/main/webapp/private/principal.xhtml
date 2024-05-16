@@ -11,10 +11,9 @@
         <ui:composition template="./../WEB-INF/template/newTemplate.xhtml">
 
             <ui:define name="content">
-<<<<<<< HEAD
-                    <f:metadata>
-                        <f:event type="preRenderView" listener="#{usuarioController.cargarDatosUsuario}" />
-                    </f:metadata>
+                <f:metadata>
+                    <f:event type="preRenderView" listener="#{usuarioController.cargarDatosUsuario}" />
+                </f:metadata>
 
                 <p:fieldset legend="Bienvenido a nuestra aplicacion web">
                     <p:panelGrid columns="2" style="width: 100%;">
@@ -23,16 +22,14 @@
                         </h:panelGroup>
                         
                         <h:panelGroup style="max-width: 100%; height: auto;" >
-                            <ui:include src="./alumno/perfil.xhtml" />
+                            <ui:include src="perfil.xhtml" />
                         </h:panelGroup>
                     </p:panelGrid>
                 </p:fieldset>
 
                 <p:messages id="msgPrincipal" severity="info"/>    
                 <!-- <p:commandButton update="msgPrincipal" value="Crear Categoría" actionListener="#{altaCategoriaController.insertarCategoria}"/> -->
-=======
 
->>>>>>> f795fdb96838446bd68d950a9c72ba11b24f5371
             </ui:define>
 
         </ui:composition>

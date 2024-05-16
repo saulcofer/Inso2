@@ -26,11 +26,16 @@ CREATE TABLE IF NOT EXISTS `instalaciones` (
   `Descripcion` varchar(100) NOT NULL,
   `Tipo` varchar(20) NOT NULL,
   `Aforo_min` int DEFAULT NULL,
-  `Aforo_max` int NOT NULL,
+  `Aforo_max` int DEFAULT NULL,
   PRIMARY KEY (`IdInstalacion`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla proyecto_insoii.instalaciones: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla proyecto_insoii.instalaciones: ~4 rows (aproximadamente)
+INSERT INTO `instalaciones` (`IdInstalacion`, `Nombre`, `Descripcion`, `Tipo`, `Aforo_min`, `Aforo_max`) VALUES
+	(1, 'Reino de León', 'Campo furbo 1 rfef', 'I', NULL, 15000),
+	(2, 'Vestuario', 'Vestuario Reino de león', 'I', NULL, 10),
+	(3, 'Sala de Pelotas', 'Pelotas ', 'M', NULL, 2),
+	(4, 'Sala de Yoga', 'Yoga', 'M', NULL, 5);
 
 -- Volcando estructura para tabla proyecto_insoii.instalaciones_sesiones
 CREATE TABLE IF NOT EXISTS `instalaciones_sesiones` (
@@ -42,9 +47,12 @@ CREATE TABLE IF NOT EXISTS `instalaciones_sesiones` (
   KEY `IdInstalacion` (`IdInstalacion`),
   CONSTRAINT `instalaciones_sesiones_ibfk_1` FOREIGN KEY (`IdSesion`) REFERENCES `sesiones` (`IdSesion`),
   CONSTRAINT `instalaciones_sesiones_ibfk_2` FOREIGN KEY (`IdInstalacion`) REFERENCES `instalaciones` (`IdInstalacion`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla proyecto_insoii.instalaciones_sesiones: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla proyecto_insoii.instalaciones_sesiones: ~2 rows (aproximadamente)
+INSERT INTO `instalaciones_sesiones` (`Id`, `IdSesion`, `IdInstalacion`) VALUES
+	(1, 6, 1),
+	(2, 7, 3);
 
 -- Volcando estructura para tabla proyecto_insoii.menus
 CREATE TABLE IF NOT EXISTS `menus` (
@@ -59,36 +67,30 @@ CREATE TABLE IF NOT EXISTS `menus` (
   KEY `Fk_Menu_menu` (`IdMenu_Menu`),
   CONSTRAINT `Fk_Menu_menu` FOREIGN KEY (`IdMenu_Menu`) REFERENCES `menus` (`IdMenu`),
   CONSTRAINT `FK_Menu_Rol` FOREIGN KEY (`IdRol`) REFERENCES `roles` (`IdRol`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb3;
 
--- Volcando datos para la tabla proyecto_insoii.menus: ~26 rows (aproximadamente)
+-- Volcando datos para la tabla proyecto_insoii.menus: ~20 rows (aproximadamente)
 INSERT INTO `menus` (`IdMenu`, `Nombre`, `Tipo`, `IdRol`, `IdMenu_Menu`, `Url`) VALUES
 	(1, 'Usuarios', 'S', 3, NULL, NULL),
 	(2, 'Nuevo', 'I', 3, 1, '/faces/private/administrador/altausuario.xhtml'),
 	(3, 'Editar', 'I', 3, 1, '/faces/private/administrador/editarUsuario.xhtml'),
 	(5, 'Sesiones', 'S', 3, NULL, NULL),
-	(6, 'Nuevo', 'I', 3, 5, '/privado/administrador/AltaRol.softwareII'),
-	(7, 'Modificar', 'I', 3, 5, '/privado/administrador/ModificarRol.softwareII'),
-	(8, 'Eliminar', 'I', 3, 5, '/privado/administrador/EliminarRol.softwareII'),
-	(9, 'Publicación', 'S', 2, NULL, NULL),
-	(10, 'Nueva', 'I', 2, 9, '/privado//alumno/AltaPublicacion.softwareII'),
-	(11, 'Modificar', 'I', 2, 9, '/privado/alumno/ModificarPublicacion.softwareII'),
-	(12, 'Eliminar', 'I', 2, 9, '/privado//alumno/EliminarPublicacion.softwareII'),
+	(6, 'Nuevo', 'I', 3, 5, '/faces/private/administrador/AltaSesion.xhtml'),
+	(7, 'Editar', 'I', 3, 5, '/faces/private/administrador/EditarSesion.xhtml'),
 	(13, 'Listar sesiones', 'S', 2, NULL, ''),
 	(14, 'Sesiones', 'S', 1, NULL, ''),
-	(15, 'Leer', 'I', 1, 14, '/faces/private/profesor/SesionesEntrenador.xhtml'),
-	(16, 'Eliminar', 'I', 1, 14, NULL),
-	(17, 'Comentar', 'I', 1, NULL, '/privado/profesor/ComentarPublicacion.softwareII'),
-	(18, 'Valorar', 'I', 1, NULL, NULL),
+	(15, 'Mis sesiones', 'I', 1, 14, '/faces/private/profesor/sesionesEntrenador.xhtml'),
 	(22, 'Instalaciones', 'S', 3, NULL, NULL),
-	(23, 'Nueva', 'I', 3, 22, '/privado/administrador/AltaCategoria.softwareII'),
-	(24, 'Modificar', 'I', 3, 22, '/privado/administrador/ModificarCategoria.softwareII'),
-	(25, 'Eliminar', 'I', 3, 22, '/privado/administrador/EliminarCategoria.softwareII'),
-	(26, 'Mis sesiones', 'I', 2, 13, '/privado/alumno/ListarsesionesPorCategoria.softwareII'),
-	(27, 'Todas las sesiones', 'I', 2, 13, '/privado/alumno/ListarsesionesPorValoracion.softwareII'),
+	(23, 'Nueva', 'I', 3, 22, '/faces/private/administrador/AltaInstalacion.xhtml'),
+	(24, 'Editar', 'I', 3, 22, '/faces/private/administrador/EditarInstalacion.xhtml'),
+	(26, 'Mis sesiones', 'I', 2, 13, '/faces/private/alumno/listarMisSesiones.xhtml'),
+	(27, 'Todas las sesiones', 'I', 2, 13, '/faces/private/alumno/listarSesiones.xhtml'),
 	(28, 'Mi perfil', 'S', 1, NULL, NULL),
 	(29, 'Mi perfil', 'S', 2, NULL, NULL),
-	(30, 'Mi perfil', 'S', 3, NULL, NULL);
+	(30, 'Mi perfil', 'S', 3, NULL, NULL),
+	(31, 'Editar perfil', 'I', 1, 28, '/faces/private/perfil.xhtml'),
+	(32, 'Editar perfil', 'I', 2, 29, '/faces/private/perfil.xhtml'),
+	(33, 'Editar perfil', 'I', 3, 30, '/faces/private/perfil.xhtml');
 
 -- Volcando estructura para tabla proyecto_insoii.personas
 CREATE TABLE IF NOT EXISTS `personas` (
@@ -154,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 
 -- Volcando datos para la tabla proyecto_insoii.usuarios: ~4 rows (aproximadamente)
 INSERT INTO `usuarios` (`IdUser`, `Username`, `Password`, `UltimaConexion`, `IdPerson`, `IdRol`) VALUES
-	(1, 'Entrenador', 'Entre', NULL, 1, 1),
+	(1, 'Entrenador', 'Entrenador', NULL, 1, 1),
 	(2, 'Alumno', 'Alumno', '2018-01-27 00:03:56', 2, 2),
 	(3, 'Admin', 'Admin', '2018-01-31 17:34:43', 3, 3),
 	(4, 'anuelAA', '123', NULL, 4, 1);

@@ -18,6 +18,7 @@ import javax.inject.Named;
 import javax.xml.registry.infomodel.User;
 import modelo.Persona;
 import modelo.Rol;
+import modelo.Sesion;
 import modelo.Usuario;
 
 /**
@@ -29,10 +30,12 @@ import modelo.Usuario;
 @ViewScoped
 public class UsuarioController implements Serializable{
     private Usuario usuario;
+    private Usuario usuarioEditar;
     private Persona persona;
     private Rol rol;
     private String rol_elegido;
     private List<Rol> roles;
+    private List<Sesion> listasesiones;
     private char tipo;
     
     
@@ -47,8 +50,29 @@ public class UsuarioController implements Serializable{
         usuario = new Usuario();
         persona = new Persona();
         roles = rolEJB.getRoles();
+        usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+        usuarioEditar = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+        listasesiones = usuario.getSesiones();
     }
 
+    public Usuario getUsuarioEditar() {
+        return usuarioEditar;
+    }
+
+    public void setUsuarioEditar(Usuario usuarioEditar) {
+        this.usuarioEditar = usuarioEditar;
+    }
+
+    
+    public List<Sesion> getListasesiones() {
+        return listasesiones;
+    }
+
+    public void setListasesiones(List<Sesion> listasesiones) {
+        this.listasesiones = listasesiones;
+    }
+
+    
     public Usuario getUsuario() {
         return usuario;
     }
@@ -158,8 +182,6 @@ public class UsuarioController implements Serializable{
    
     public void cargarDatosUsuario() {
         // Suponiendo que tienes algún mecanismo para obtener el nombre de usuario actualmente autenticado
-        String nombreUsuario = obtenerNombreUsuarioAutenticado();
-
         // Buscar el usuario por su nombre de usuario
         usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
                  System.out.println(this.usuario);
@@ -169,14 +191,24 @@ public class UsuarioController implements Serializable{
             persona = usuario.getPersona();
         }
     }
-
-    // Método para obtener el nombre de usuario del usuario actualmente autenticado
-    private String obtenerNombreUsuarioAutenticado() {
-        // Aquí debes implementar la lógica para obtener el nombre de usuario del usuario autenticado
-        // Podría ser desde la sesión, desde un servicio de autenticación, etc.
-        // Por ejemplo:
-        FacesContext context = FacesContext.getCurrentInstance();
-        return context.getExternalContext().getRemoteUser();
+    
+    public void cargarSesionesUsuario(){
+        usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+        listasesiones = usuario.getSesiones();
     }
     
+    
+    public void editarUsuario() {
+        // Suponiendo que tienes algún mecanismo para obtener el nombre de usuario actualmente autenticado
+        // Buscar el usuario por su nombre de usuario
+        usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+        usuario.setUsername(usuarioEditar.getUsername());
+        System.out.println(usuarioEditar.getUsername());
+        // Si encontramos al usuario, podemos obtener la persona asociada
+        if (usuario != null) {
+            persona = usuario.getPersona();
+        }
+        
+        
+    }
 }

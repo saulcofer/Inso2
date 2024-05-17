@@ -18,22 +18,25 @@
                 <p:panel header="Perfil de Usuario" style="width: 50%; margin: auto;">
                     <p:panelGrid columns="2" columnClasses="label,value" styleClass="ui-panelgrid-blank">
                         <p:outputLabel for="username" value="Nombre de Usuario:" />
-                        <p:inputText id="username" value="#{usuarioController.usuario.username}" />
+                        <p:inputText id="username" value="#{usuarioController.usuarioEditar.username}" />
 
                         <p:outputLabel for="nombre" value="Nombre:" />
-                        <p:inputText id="nombre" value="#{usuarioController.persona.nombre}" />
+                        <p:inputText id="nombre" value="#{usuarioController.usuarioEditar.persona.nombre}" />
 
                         <p:outputLabel for="apellidos" value="Apellidos:" />
-                        <p:inputText id="apellidos" value="#{usuarioController.persona.apellidos}" />
+                        <p:inputText id="apellidos" value="#{usuarioController.usuarioEditar.persona.apellidos}" />
 
                         <p:outputLabel for="fechaNacimiento" value="Fecha de Nacimiento:" />
-                        <p:calendar id="fechaNacimiento" value="#{usuarioController.persona.fechaNacimiento}" showOn="button" pattern="dd/MM/yyyy" />
+                        <p:calendar id="fechaNacimiento" value="#{usuarioController.usuarioEditar.persona.fechaNacimiento}" showOn="button" pattern="dd/MM/yyyy" />
 
                         <p:outputLabel for="sexo" value="Sexo:" />
-                        <p:selectOneMenu id="sexo" value="#{usuarioController.persona.sexo}">
+                        <p:selectOneMenu id="sexo" value="#{usuarioController.usuarioEditar.persona.sexo}">
                             <f:selectItem itemLabel="Masculino" itemValue="M" />
                             <f:selectItem itemLabel="Femenino" itemValue="F" />
                         </p:selectOneMenu>
+                        
+                        <p:commandButton value="Guardar" styleClass="rounded-button ui-button-success" actionListener="#{usuarioController.editarUsuario()}">
+                        </p:commandButton>
                     </p:panelGrid>
                 </p:panel>
             </h:form>            

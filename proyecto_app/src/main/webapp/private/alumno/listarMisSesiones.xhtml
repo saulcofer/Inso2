@@ -1,17 +1,82 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
         <ui:composition template="./../../WEB-INF/template/newTemplate.xhtml">
 
             <ui:define name="content">
-                content
+                <h:form id="frmPrincipal">
+                    <p:dataTable id = "tablaSesiones2" var="sesion" value="#{usuarioController.listasesiones}" rows="10"
+                                 paginator="true" paginatorPosition="both"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                 rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+
+                        <p:column headerText="Título">
+                            <h:outputText value="#{sesion.titulo}" />
+                        </p:column>
+                        
+                        <p:column headerText="Cuerpo" style="width:150px">
+                            <h:outputText value="#{sesion.cuerpo}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        
+                        <p:column headerText="Fecha">
+                            <h:outputText value="#{sesion.fecha}" />
+                        </p:column>
+
+                        <p:column headerText="Valoracion media">
+                            <h:outputText value="#{sesion.valoracion}" />
+                        </p:column>
+                        
+                        <p:column headerText="Comentarios">
+                            <h:outputText value="#{sesion.comentarios}" />
+                        </p:column>
+                        
+                        <p:column headerText="Valorar" style="width:100px">
+                                <p:commandLink actionListener="#{sesionUsuarioController.establecerSesionValorar(sesion)}"
+                                               oncomplete="PF('wdialogo1').show();" update=":frmDialogo:dialogo1">
+                                    <h:graphicImage library="img" name="edit_icon.png" width="30px"/>
+                                </p:commandLink>
+                        </p:column>
+                        
+                    </p:dataTable>
+                </h:form>
+                
+                <h:form id="frmDialogo">
+                    <p:dialog id="dialogo1" widgetVar="wdialogo1" modal="true" closeOnEscape="true" draggable="false" resizable="false" header="Valorar">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Nombre de Usuario" />
+                            <p:inputText value="#{usuarioController.usuario.username}"/>
+                            
+                            <p:outputLabel value="Nombre" />
+                            <p:inputText value="#{usuarioController.usuario.persona.nombre}"/>   
+                            
+                            <p:outputLabel value="Valoracion" />
+                            <p:inputText value="#{sesionUsuarioController.sesion.valoracion}"/>   
+                            
+                            <p:outputLabel value="Comentario" />
+                            <p:inputText value="#{sesionUsuarioController.sesion.comentarios}"/>   
+                            
+                            <p:commandButton value="Valorar" actionListener="#{sesionUsuarioController.valorarSesionUsuario()}" update=":frmPrincipal:tablaSesiones2" 
+                                             oncomplete="PF('wdialogo1').hide();"/>
+                            
+                            
+                            <!-- El botón de cancelar se ha quitado porque daba problemas en la actualización del widge,
+                            en cambio si se cierra la pestaña directamente no da problemas-->
+                        </p:panelGrid>
+                    </p:dialog>
+                </h:form>
+                
             </ui:define>
 
         </ui:composition>
-
     </body>
 </html>

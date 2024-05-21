@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -44,8 +45,12 @@ public class EditarInstalacionController implements Serializable{
     }
     
     public void insertarInstalacion(){
-        instalacionEJB.create(this.ins);
-        listaInstalaciones = instalacionEJB.findAll();
+        int resp=instalacionEJB.crearInstalacion(this.ins);
+        if(resp==0){
+            FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"El nombre de instalación debe ser único",""));
+        }else{
+            listaInstalaciones = instalacionEJB.findAll();
+        }
     }
     
     public void establecerInstalacionEliminar(Instalacion ins){

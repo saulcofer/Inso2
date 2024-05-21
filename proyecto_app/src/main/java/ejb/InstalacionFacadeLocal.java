@@ -30,4 +30,6 @@ public interface InstalacionFacadeLocal {
 
     int count();
     
+    int crearInstalacion(Instalacion usuario);
+    
 }

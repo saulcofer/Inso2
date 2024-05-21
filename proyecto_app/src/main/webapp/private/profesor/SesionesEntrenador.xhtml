@@ -13,7 +13,7 @@
             <ui:define name="content">
                 <h:form id="frmPrincipal">
                     <p:messages id="msgAction" severity="info"/>
-                    <p:dataTable id="tablaInstalaciones" var="ses" value="#{sesionesEntrenadorController.listasesiones}" rows="10"
+                    <p:dataTable id="tablaSesiones" var="ses" value="#{sesionesEntrenadorController.listasesiones}" rows="10"
                                  paginator="true" paginatorPosition="both"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"

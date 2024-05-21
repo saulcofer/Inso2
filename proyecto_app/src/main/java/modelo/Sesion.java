@@ -63,7 +63,7 @@ public class Sesion implements Serializable{
         joinColumns = @JoinColumn(name = "IdSesion", nullable = false),
         inverseJoinColumns = @JoinColumn(name="IdInstalacion", nullable = false) // pendiente de añadir columnas adicionales
     )    
-    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @ManyToMany
     private List<Instalacion> instalaciones;
 
     public List<Instalacion> getInstalaciones() {

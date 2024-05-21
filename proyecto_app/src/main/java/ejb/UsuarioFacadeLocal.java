@@ -35,4 +35,6 @@ public interface UsuarioFacadeLocal {
     Usuario buscarPorNombreUsuario(String nombreUsuario);
         
     int crearUsuario(Usuario usuario);
+
+    public List<Usuario> findAllEntrenadores();
 }

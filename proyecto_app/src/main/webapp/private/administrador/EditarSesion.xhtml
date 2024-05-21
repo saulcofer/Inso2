@@ -1,17 +1,133 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
         <ui:composition template="./../../WEB-INF/template/newTemplate.xhtml">
 
             <ui:define name="content">
-                content
+                <h:form id="frmPrincipal">
+                    <p:messages id="msgAction" severity="warn">
+                        <p:autoUpdate />
+                    </p:messages>
+                    <p:dataTable id="tablaSesiones" var="ses" value="#{editarSesionController.listasesiones}" rows="10"
+                                 paginator="true" paginatorPosition="both"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                 rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+                        
+                        <p:column headerText="Titulo">
+                            <h:outputText value="#{ses.titulo}" />
+                        </p:column>
+                        
+                        <p:column headerText="Descripcion de la sesion">
+                            <h:outputText value="#{ses.cuerpo}" />
+                        </p:column>
+
+                        <p:column headerText="Entrenador">
+                            <h:outputText value="#{editarSesionController.obtenerUsernameEntrenador(ses.usuarios)}" />
+                        </p:column>
+                        
+                        <p:column headerText="Instalaciones">
+                            <ui:repeat value="#{ses.instalaciones}" var="ins">
+                                <h:outputText value="#{ins.nombre}" />
+                                <br />
+                            </ui:repeat>
+                        </p:column>
+                        
+                        
+                        <p:column headerText="Fecha de la sesion" style="width:150px">
+                            <h:outputText value="#{ses.fecha}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        
+                        <p:column headerText="Valoración Media">
+                            <h:outputText value="#{ses.valoracion}" />
+                        </p:column>
+                        
+                        <p:column headerText="Comentarios">
+                            <h:outputText value="#{ses.comentarios}" />
+                        </p:column>
+                        
+                        <p:column headerText="Editar Sesión" style="width:100px">
+                            <p:commandLink actionListener="#{editarSesionController.establecerSesionModificar(ses)}"
+                                           oncomplete="PF('wdialogo1').show();" update=":frmDialogo:dialogo1">
+                                <h:graphicImage library="img" name="edit_icon.png" width="30px"/>
+                            </p:commandLink>
+                        </p:column>
+                        
+                        <p:column headerText="Eliminar Sesion" style="width:100px">
+                            <p:commandLink actionListener="#{editarSesionController.establecerSesionEliminar(ses)}"
+                                           oncomplete="PF('wdialogo1').show();" update=":frmDialogo:dialogo1">
+                                <h:graphicImage library="img" name="delete-icon.png" width="30px"/>
+                            </p:commandLink>
+                        </p:column>
+                        
+                        <f:facet name="paginatorBottomLeft">                             
+                            <p:commandLink actionListener="#{editarSesionController.establecerSesionAñadir()}"
+                                           oncomplete="PF('wdialogo1').show();" update=":frmDialogo:dialogo1">
+                                <h:graphicImage library="img" name="añadir_button.png" width="30px"/>
+                            </p:commandLink>
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                
+                <h:form id="frmDialogo">
+                    <p:messages id="msgAction">
+                        <p:autoUpdate />
+                    </p:messages>
+                    <p:dialog id="dialogo1" widgetVar="wdialogo1" modal="true" closeOnEscape="true" draggable="false" resizable="false" header="Sesiones del entrenador">
+                        <p:panelGrid columns="3">
+                            <p:outputLabel value="Titulo de sesion" />
+                            <p:inputText id="titulo" value="#{editarSesionController.sesion.titulo}"/>
+                            <p:message for="titulo"/>
+                            
+                            <p:outputLabel id="descripcion" value="Descripción de la sesion" />
+                            <p:inputText value="#{editarSesionController.sesion.cuerpo}"/>
+                            <p:message for="descripcion"/>
+                            
+                            <p:outputLabel value="Fecha de la sesion:" for="dateSesion"/>
+                            <p:calendar value="#{editarSesionController.sesion.fecha}" showOn="button" locale="es" id="dateSesion"/>
+                            <p:message for="dateSesion"/>
+                            
+                            
+                            <p:outputLabel value="Selecciona el entrenador de la sesión" />
+                            <p:selectOneMenu id="entrenador" value="#{editarSesionController.selected_entrenador}">
+                                <f:selectItems itemLabel="#{user.username}" value='#{editarSesionController.listaEntrenadores}' itemValue="#{user.idUser}" var="user"/>
+                            </p:selectOneMenu>
+                            <p:message for="entrenador"/>
+                            
+                            <p:outputLabel value="Selecciona las instalaciones de la sesión" />
+                            <p:selectCheckboxMenu id="instalacion" value="#{editarSesionController.selected_instalaciones}" label="Instalaciones" multiple="true"
+                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                <f:selectItems itemLabel="#{ins.nombre} #{ins.tipo eq 'I' ? 'Instalación Deportiva' : 'Sala de Materiales'}" value='#{editarSesionController.listaInstalaciones}' itemValue="#{ins.idInstalacion}" var="ins"/>
+                            </p:selectCheckboxMenu>
+                            <p:message for="entrenador"/>
+                            
+                            <p:commandButton value="Insertar" actionListener="#{editarSesionController.insertarSesion()}" update=":frmPrincipal:tablaSesiones" 
+                                             oncomplete="PF('wdialogo1').hide();" rendered="#{editarSesionController.accion == 'R'}" />
+                            
+                            
+                            <p:commandButton value="Eliminar" actionListener="#{editarSesionController.eliminarSesion()}" update=":frmPrincipal:tablaSesiones" 
+                                             oncomplete="PF('wdialogo1').hide();" rendered="#{editarSesionController.accion == 'E'}" />
+                            
+                            <p:commandButton value="Modificar" actionListener="#{editarSesionController.modificarSesion()}" update=":frmPrincipal:tablaSesiones" 
+                                             oncomplete="PF('wdialogo1').hide();" rendered="#{editarSesionController.accion == 'M'}" />
+                                                        
+                        </p:panelGrid>
+                    </p:dialog>
+                </h:form>
             </ui:define>
 
         </ui:composition>
 
     </body>
 </html>
+
+

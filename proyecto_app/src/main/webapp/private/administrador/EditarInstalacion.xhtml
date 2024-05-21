@@ -12,7 +12,9 @@
 
             <ui:define name="content">
                 <h:form id="frmPrincipal">
-                    <p:messages id="msgAction" severity="info"/>
+                    <p:messages id="msgAction" severity="warn">
+                        <p:autoUpdate />
+                    </p:messages>
                     <p:dataTable id="tablaInstalaciones" var="ins" value="#{editarInstalacionController.listaInstalaciones}" rows="10"
                                  paginator="true" paginatorPosition="both"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"

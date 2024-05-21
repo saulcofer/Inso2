@@ -30,4 +30,8 @@ public interface InstalacionFacadeLocal {
 
     int count();
     
+    List<Instalacion> findInstalaciones();
+    
+    List<Instalacion> findMateriales();
+    
 }

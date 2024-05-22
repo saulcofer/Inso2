@@ -33,6 +33,13 @@
                             <h:outputText value="#{editarSesionController.obtenerEntrenador_lista(ses.usuarios).persona.nombre} #{editarSesionController.obtenerEntrenador_lista(ses.usuarios).persona.apellidos} " />
                         </p:column>
                         
+                        <p:column headerText="Participantes">
+                            <ui:repeat value="#{editarSesionController.obtenerParticipantes_lista(ses.usuarios)}" var="us">
+                                <h:outputText value="#{us.persona.nombre} #{us.persona.apellidos}" />
+                                <br />
+                            </ui:repeat>
+                        </p:column>
+                        
                         <p:column headerText="Instalaciones">
                             <ui:repeat value="#{ses.instalaciones}" var="ins">
                                 <h:outputText value="#{ins.nombre}" />
@@ -109,6 +116,13 @@
                                 <f:selectItems itemLabel="#{user.persona.nombre} #{user.persona.apellidos}" value='#{editarSesionController.listaEntrenadores}' itemValue="#{user.idUser}" var="user"/>
                             </p:selectOneMenu>
                             <p:message for="entrenador"/>
+                            
+                            <p:outputLabel value="Selecciona los participantes de la sesión" />
+                            <p:selectCheckboxMenu id="participantes" value="#{editarSesionController.selected_participantes}" label="Instalaciones" multiple="true"
+                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                <f:selectItems itemLabel="#{user.persona.nombre} #{user.persona.apellidos}" value='#{editarSesionController.listaParticipantes}' itemValue="#{user.username}" var="user"/>
+                            </p:selectCheckboxMenu>
+                            <p:message for="participantes"/>
                             
                             <p:outputLabel value="Selecciona las instalaciones de la sesión" />
                             <p:selectCheckboxMenu id="instalacion" value="#{editarSesionController.selected_instalaciones}" label="Instalaciones" multiple="true"

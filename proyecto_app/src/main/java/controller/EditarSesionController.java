@@ -32,10 +32,12 @@ import modelo.Usuario;
 public class EditarSesionController implements Serializable{
     private List<Sesion> listasesiones;
     private List<Usuario> listaEntrenadores;
+    private List<Usuario> listaParticipantes;
     private List<Instalacion> listaInstalaciones;
     private Sesion sesion;
     private int selected_entrenador;
     private String[] selected_instalaciones;
+    private String[] selected_participantes;
     private String accion;
     
     @EJB
@@ -52,6 +54,7 @@ public class EditarSesionController implements Serializable{
         listasesiones = sesionEJB.findAll();
         listaInstalaciones = instalacionEJB.findAll();
         listaEntrenadores = usuarioEJB.findAllEntrenadores();
+        listaParticipantes = usuarioEJB.findAllParticipantes();
     }
 
     
@@ -95,6 +98,46 @@ public class EditarSesionController implements Serializable{
             }
         }
         return result;
+    }
+    
+    public String[] obtenerParticipantes_names(List<Usuario> usuarios){
+        String[] result;
+        int j;
+        if(usuarios.size()>1){
+            // Hay participantes (por defecto hay un usuario de tipo entrenador en todas las sesiones)
+            result= new String[usuarios.size()-1];
+            j=0;
+            for(int i=0;i<usuarios.size();i++){
+                if(usuarios.get(i).getRol().getDescripcion().equals("Participante")){
+                    result[j]=usuarios.get(i).getUsername();
+                    j++;
+                }
+            } 
+        }else{
+            result = new String[0]; // lista vacía si no hay usuarios
+        }
+        return result;
+    }
+    
+    public List<Usuario> obtenerParticipantes(String[] usernames) {
+        List<Usuario> result = new ArrayList<>();
+        for (String username : usernames) {
+            Usuario usuario = usuarioEJB.buscarPorNombreUsuario(username);
+            if (usuario != null) {
+                result.add(usuario);
+            }
+        }
+        return result;
+    }
+
+    public List<Usuario> obtenerParticipantes_lista(List<Usuario> usuarios) {
+        List<Usuario> participantes = new ArrayList<>();
+        for (Usuario us : usuarios) {
+            if (us.getRol().getDescripcion().equals("Participante")) {
+                participantes.add(us);
+            }
+        }
+        return participantes;
     }
     
      public List<Instalacion> obtenerInstalaciones(String[] names){
@@ -144,51 +187,56 @@ public class EditarSesionController implements Serializable{
         this.sesion = sesion;
         this.selected_entrenador=this.obtenerEntrenador_lista(this.sesion.getUsuarios()).getIdUser();
         this.selected_instalaciones=obtenerInstalaciones_names(this.sesion.getInstalaciones());
+        this.selected_participantes=obtenerParticipantes_names(this.sesion.getUsuarios());
     }
-    
 
     public void modificarSesion() {
-        System.out.println("TEST!!!!!!!!!!");
-        // cuando se modifican 2 seguidos, el 2 no entra por error de casteo multimenu
+        // Obtener el nuevo entrenador
         Usuario nuevoEntrenador = obtenerEntrenador(this.selected_entrenador);
         List<Instalacion> nuevasInstalaciones = obtenerInstalaciones(this.selected_instalaciones);
         List<Usuario> usuarios = sesion.getUsuarios();
 
-        // Actualizar entrenador
-        if (obtenerEntrenador_lista(usuarios).getUsername().equals(nuevoEntrenador.getUsername())) {
-            // Si el entrenador no ha cambiado, simplemente editamos la sesión
-            System.out.println("Mismo Entrenador");
-            sesionEJB.edit(this.sesion);
-        } else {
-            // Si el entrenador ha cambiado, actualizamos la lista de usuarios de la sesión
-            usuarios.removeIf(us -> us.getRol().getDescripcion().equals("Entrenador"));
-
-            // Añadimos el nuevo entrenador
+        // Actualizar el entrenador
+        Usuario entrenadorActual = obtenerEntrenador_lista(usuarios);
+        if (!entrenadorActual.getUsername().equals(nuevoEntrenador.getUsername())) {
+            usuarios.remove(entrenadorActual);
             usuarios.add(nuevoEntrenador);
-            sesion.setUsuarios(usuarios);
-            System.out.println("Entrenador Modificado");
+        }
+
+        // Actualizar participantes
+        List<Usuario> nuevosParticipantes = obtenerParticipantes(this.selected_participantes);
+        List<Usuario> participantesActuales = obtenerParticipantes_lista(usuarios);
+
+
+        // Eliminar participantes que ya no están seleccionados
+        for (Usuario participanteActual : new ArrayList<>(participantesActuales)) {
+            if (!nuevosParticipantes.contains(participanteActual)) {
+                usuarios.remove(participanteActual);
+            }
+        }
+
+        // Agregar nuevos participantes seleccionados
+        for (Usuario nuevoParticipante : nuevosParticipantes) {
+            if (!participantesActuales.contains(nuevoParticipante)) {
+                usuarios.add(nuevoParticipante);
+            }
         }
 
         // Actualizar instalaciones
         List<Instalacion> instalacionesActuales = sesion.getInstalaciones();
-
-        // Eliminar instalaciones que ya no están seleccionadas
         instalacionesActuales.removeIf(ins -> !nuevasInstalaciones.contains(ins));
-
-        // Añadir nuevas instalaciones seleccionadas
         for (Instalacion nuevaInstalacion : nuevasInstalaciones) {
             if (!instalacionesActuales.contains(nuevaInstalacion)) {
                 instalacionesActuales.add(nuevaInstalacion);
-                System.out.println("Instalacion Añadida");
             }
         }
 
         sesion.setInstalaciones(instalacionesActuales);
-
+        sesion.setUsuarios(usuarios);
         sesionEJB.edit(this.sesion);
         listasesiones = sesionEJB.findAll();
     }
-
+    
     
     public boolean sameElements(List<Instalacion> list1, List<Instalacion> list2) {
         if (list1 == null || list2 == null) {
@@ -278,6 +326,22 @@ public class EditarSesionController implements Serializable{
 
     public void setInstalacionEJB(InstalacionFacadeLocal instalacionEJB) {
         this.instalacionEJB = instalacionEJB;
+    }
+
+    public String[] getSelected_participantes() {
+        return selected_participantes;
+    }
+
+    public void setSelected_participantes(String[] selected_participantes) {
+        this.selected_participantes = selected_participantes;
+    }
+
+    public List<Usuario> getListaParticipantes() {
+        return listaParticipantes;
+    }
+
+    public void setListaParticipantes(List<Usuario> listaParticipantes) {
+        this.listaParticipantes = listaParticipantes;
     }
 
 }

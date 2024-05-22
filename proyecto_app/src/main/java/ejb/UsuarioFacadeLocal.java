@@ -37,4 +37,6 @@ public interface UsuarioFacadeLocal {
     int crearUsuario(Usuario usuario);
 
     public List<Usuario> findAllEntrenadores();
+    
+    public List<Usuario> findAllParticipantes();
 }

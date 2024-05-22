@@ -27,12 +27,12 @@
                             <h:outputText value="#{ses.cuerpo}" />
                         </p:column>
 
-                        <p:column headerText="Instalacion de la sesion">
+                        <p:column headerText="Instalaciones de la sesion">
                             <h:outputText value="#{sesionesEntrenadorController.getInstalacion(ses)}" />
                         </p:column>
-                        
-                        <p:column headerText="Material de la sesion">
-                            <h:outputText value="#{sesionesEntrenadorController.getMaterial(ses)}" />
+
+                        <p:column headerText="Valoración de la sesion">
+                            <h:outputText value="#{ses.valoracion}" />
                         </p:column>
                         
                         <p:column headerText="Fecha de la sesion" style="width:150px">
@@ -73,14 +73,19 @@
                             <p:inputText value="#{sesionesEntrenadorController.sesion.cuerpo}"/>
                             <p:outputLabel value="Fecha de la sesion:" for="dateSesion"/>
                             <p:calendar value="#{sesionesEntrenadorController.sesion.fecha}" showOn="button" locale="es" required="true"  requiredMessage="Fecha de la sesion obligatoria" id="dateSesion"/>
-                            <p:outputLabel value="Instalación asociada" />
-                            <p:selectOneRadio id="instalacion" value="#{sesionesEntrenadorController.instalacion}" unselectable="true" layout="grid">
-                                <f:selectItems itemLabel="#{instalacion.nombre}" value="#{sesionesEntrenadorController.listainstalaciones}" itemValue="#{instalacion}" var="instalacion"/>
-                            </p:selectOneRadio>
-                            <p:outputLabel value="Material asociado" />
-                            <p:selectOneRadio id="material" value="#{sesionesEntrenadorController.material}" unselectable="true" layout="grid">
-                                <f:selectItems itemLabel="#{instalacion.nombre}" value="#{sesionesEntrenadorController.listamaterial}" itemValue="#{instalacion}" var="instalacion"/>
-                            </p:selectOneRadio>
+                            
+                            <p:outputLabel value="Selecciona las instalaciones de la sesión" rendered="#{sesionesEntrenadorController.accion == 'R'or sesionesEntrenadorController.accion == 'M'}"/>
+                            <p:selectCheckboxMenu id="instalacion" value="#{sesionesEntrenadorController.selected_instalaciones}" label="Instalaciones" multiple="true"
+                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px" rendered="#{sesionesEntrenadorController.accion == 'R'or sesionesEntrenadorController.accion == 'M'}">
+                                <f:selectItems itemLabel="#{ins.nombre} #{ins.tipo eq 'I' ? '(Instalación Deportiva)' : '(Sala de Materiales)'}" value='#{sesionesEntrenadorController.listainstalaciones}' itemValue="#{ins.nombre}" var="ins"/>
+                            </p:selectCheckboxMenu>
+                            
+                            <p:outputLabel value="Instalaciones de la sesión" rendered="#{sesionesEntrenadorController.accion == 'E'}"/>
+                            <ui:repeat value="#{sesionesEntrenadorController.sesion.instalaciones}" var="ins" rendered="#{sesionesEntrenadorController.accion == 'E'}">
+                                <br/>
+                                <h:outputText value="#{ins.nombre}" />
+                                <br/>
+                            </ui:repeat>
                             
                             
                             <p:commandButton value="Insertar" actionListener="#{sesionesEntrenadorController.insertarSesion()}" update=":frmPrincipal:tablaSesiones" 

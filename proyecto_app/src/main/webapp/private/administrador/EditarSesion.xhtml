@@ -30,7 +30,7 @@
                         </p:column>
 
                         <p:column headerText="Entrenador">
-                            <h:outputText value="#{editarSesionController.obtenerUsernameEntrenador(ses.usuarios)}" />
+                            <h:outputText value="#{editarSesionController.obtenerEntrenador_lista(ses.usuarios).persona.nombre} #{editarSesionController.obtenerEntrenador_lista(ses.usuarios).persona.apellidos} " />
                         </p:column>
                         
                         <p:column headerText="Instalaciones">
@@ -106,14 +106,14 @@
                             
                             <p:outputLabel value="Selecciona el entrenador de la sesión" />
                             <p:selectOneMenu id="entrenador" value="#{editarSesionController.selected_entrenador}">
-                                <f:selectItems itemLabel="#{user.username}" value='#{editarSesionController.listaEntrenadores}' itemValue="#{user.idUser}" var="user"/>
+                                <f:selectItems itemLabel="#{user.persona.nombre} #{user.persona.apellidos}" value='#{editarSesionController.listaEntrenadores}' itemValue="#{user.idUser}" var="user"/>
                             </p:selectOneMenu>
                             <p:message for="entrenador"/>
                             
                             <p:outputLabel value="Selecciona las instalaciones de la sesión" />
                             <p:selectCheckboxMenu id="instalacion" value="#{editarSesionController.selected_instalaciones}" label="Instalaciones" multiple="true"
                                                   filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-                                <f:selectItems itemLabel="#{ins.nombre} #{ins.tipo eq 'I' ? 'Instalación Deportiva' : 'Sala de Materiales'}" value='#{editarSesionController.listaInstalaciones}' itemValue="#{ins.idInstalacion}" var="ins"/>
+                                <f:selectItems itemLabel="#{ins.nombre} #{ins.tipo eq 'I' ? 'Instalación Deportiva' : 'Sala de Materiales'}" value='#{editarSesionController.listaInstalaciones}' itemValue="#{ins.nombre}" var="ins"/>
                             </p:selectCheckboxMenu>
                             <p:message for="instalacion"/>
                             

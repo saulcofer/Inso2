@@ -35,7 +35,7 @@ public class EditarSesionController implements Serializable{
     private List<Instalacion> listaInstalaciones;
     private Sesion sesion;
     private int selected_entrenador;
-    private int[] selected_instalaciones;
+    private String[] selected_instalaciones;
     private String accion;
     
     @EJB
@@ -87,17 +87,17 @@ public class EditarSesionController implements Serializable{
         return result;
     }
     
-    public String obtenerUsernameEntrenador(List<Usuario> usuarios){
+    public Usuario obtenerEntrenador_lista(List<Usuario> usuarios){
         Usuario result=null;
         for(Usuario us : usuarios){
             if(us.getRol().getDescripcion().equals("Entrenador")){
                 result=us;break;
             }
         }
-        return result.getUsername();
+        return result;
     }
     
-     public List<Instalacion> obtenerInstalaciones(int[] ids){
+     public List<Instalacion> obtenerInstalaciones(String[] names){
         List<Instalacion> result = new ArrayList<>();
         int i;
         boolean found;
@@ -105,8 +105,8 @@ public class EditarSesionController implements Serializable{
         for(Instalacion ins : this.listaInstalaciones){
             i=0;
             found=false;
-            while(!found && i<ids.length){
-                if(ids[i]==ins.getIdInstalacion()){
+            while(!found && i<names.length){
+                if(names[i].equals(ins.getNombre())){
                     result.add(ins);
                     found=true;
                 }
@@ -115,6 +115,15 @@ public class EditarSesionController implements Serializable{
         }
         return result;
     }
+     
+     public String[] obtenerInstalaciones_names (List<Instalacion>instalaciones){
+        String[] result = new String[instalaciones.size()];
+
+        for(int i=0;i<instalaciones.size();i++){
+            result[i] = instalaciones.get(i).getNombre();
+        }
+        return result;
+     }
     
     public void establecerSesionEliminar(Sesion sesion){
         this.setAccion("E");
@@ -133,17 +142,20 @@ public class EditarSesionController implements Serializable{
     public void establecerSesionModificar(Sesion sesion){
         this.setAccion("M");
         this.sesion = sesion;
+        this.selected_entrenador=this.obtenerEntrenador_lista(this.sesion.getUsuarios()).getIdUser();
+        this.selected_instalaciones=obtenerInstalaciones_names(this.sesion.getInstalaciones());
     }
     
 
     public void modificarSesion() {
+        System.out.println("TEST!!!!!!!!!!");
         // cuando se modifican 2 seguidos, el 2 no entra por error de casteo multimenu
         Usuario nuevoEntrenador = obtenerEntrenador(this.selected_entrenador);
         List<Instalacion> nuevasInstalaciones = obtenerInstalaciones(this.selected_instalaciones);
         List<Usuario> usuarios = sesion.getUsuarios();
 
         // Actualizar entrenador
-        if (obtenerUsernameEntrenador(usuarios).equals(nuevoEntrenador.getUsername())) {
+        if (obtenerEntrenador_lista(usuarios).getUsername().equals(nuevoEntrenador.getUsername())) {
             // Si el entrenador no ha cambiado, simplemente editamos la sesión
             System.out.println("Mismo Entrenador");
             sesionEJB.edit(this.sesion);
@@ -175,10 +187,6 @@ public class EditarSesionController implements Serializable{
 
         sesionEJB.edit(this.sesion);
         listasesiones = sesionEJB.findAll();
-        
-        // Para resetear selectMenus de la vista
-        this.selected_entrenador=-1;
-        this.selected_instalaciones=new int[0];
     }
 
     
@@ -255,11 +263,11 @@ public class EditarSesionController implements Serializable{
         this.listaInstalaciones = listaInstalaciones;
     }
 
-    public int[] getSelected_instalaciones() {
+    public String[] getSelected_instalaciones() {
         return selected_instalaciones;
     }
 
-    public void setSelected_instalaciones(int[] selected_instalaciones) {
+    public void setSelected_instalaciones(String[] selected_instalaciones) {
         this.selected_instalaciones = selected_instalaciones;
     }
 

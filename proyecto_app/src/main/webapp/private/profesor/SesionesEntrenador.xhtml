@@ -27,6 +27,14 @@
                             <h:outputText value="#{ses.cuerpo}" />
                         </p:column>
 
+                        <p:column headerText="Instalaciones de la sesion">
+                            <h:outputText value="#{sesionesEntrenadorController.getInstalacion(ses)}" />
+                        </p:column>
+
+                        <p:column headerText="Valoración de la sesion">
+                            <h:outputText value="#{ses.valoracion}" />
+                        </p:column>
+                        
                         <p:column headerText="Fecha de la sesion" style="width:150px">
                             <h:outputText value="#{ses.fecha}">
                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
@@ -65,6 +73,20 @@
                             <p:inputText value="#{sesionesEntrenadorController.sesion.cuerpo}"/>
                             <p:outputLabel value="Fecha de la sesion:" for="dateSesion"/>
                             <p:calendar value="#{sesionesEntrenadorController.sesion.fecha}" showOn="button" locale="es" required="true"  requiredMessage="Fecha de la sesion obligatoria" id="dateSesion"/>
+                            
+                            <p:outputLabel value="Selecciona las instalaciones de la sesión" rendered="#{sesionesEntrenadorController.accion == 'R'or sesionesEntrenadorController.accion == 'M'}"/>
+                            <p:selectCheckboxMenu id="instalacion" value="#{sesionesEntrenadorController.selected_instalaciones}" label="Instalaciones" multiple="true"
+                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px" rendered="#{sesionesEntrenadorController.accion == 'R'or sesionesEntrenadorController.accion == 'M'}">
+                                <f:selectItems itemLabel="#{ins.nombre} #{ins.tipo eq 'I' ? '(Instalación Deportiva)' : '(Sala de Materiales)'}" value='#{sesionesEntrenadorController.listainstalaciones}' itemValue="#{ins.nombre}" var="ins"/>
+                            </p:selectCheckboxMenu>
+                            
+                            <p:outputLabel value="Instalaciones de la sesión" rendered="#{sesionesEntrenadorController.accion == 'E'}"/>
+                            <ui:repeat value="#{sesionesEntrenadorController.sesion.instalaciones}" var="ins" rendered="#{sesionesEntrenadorController.accion == 'E'}">
+                                <br/>
+                                <h:outputText value="#{ins.nombre}" />
+                                <br/>
+                            </ui:repeat>
+                            
                             
                             <p:commandButton value="Insertar" actionListener="#{sesionesEntrenadorController.insertarSesion()}" update=":frmPrincipal:tablaSesiones" 
                                              oncomplete="PF('wdialogo1').hide();" rendered="#{sesionesEntrenadorController.accion == 'R'}" />

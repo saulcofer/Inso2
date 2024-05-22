@@ -29,6 +29,8 @@ public class SesionUsuarioController implements Serializable{
     private Sesion sesion;
     private Usuario user;
     private String accion;
+    private float nuevaVal;
+    private String nuevoComentario;
     
     @EJB
     private SesionFacadeLocal sesionEJB;
@@ -39,6 +41,23 @@ public class SesionUsuarioController implements Serializable{
         listasesiones = user.getSesiones();
     }
 
+    public String getNuevoComentario() {
+        return nuevoComentario;
+    }
+
+    public void setNuevoComentario(String nuevoComentario) {
+        this.nuevoComentario = nuevoComentario;
+    }
+
+    
+    public float getNuevaVal() {
+        return nuevaVal;
+    }
+
+    public void setNuevaVal(float nuevaVal) {
+        this.nuevaVal = nuevaVal;
+    }
+    
     public List<Sesion> getListasesiones() {
         return listasesiones;
     }
@@ -94,12 +113,16 @@ public class SesionUsuarioController implements Serializable{
         {
             //Sesion vacia
             sesion.getValoracion();
+            sesion.setComentarios(user.getUsername()+": "+nuevoComentario+"||");
         }else{
             //Sesion con participantes
-            
-            
+            float val = nuevaVal;
+            float num = sesion.getValoracion()*(sesion.getUsuarios().size()-1)+val;
+            float result = num/sesion.getUsuarios().size();
+            this.sesion.setValoracion(result);
+            sesion.setComentarios(sesion.getComentarios()+user.getUsername()+": "+nuevoComentario+"||");
         }
-        
+        sesionEJB.edit(this.sesion);
     }
     
     public void inscribirseEnSesion(){

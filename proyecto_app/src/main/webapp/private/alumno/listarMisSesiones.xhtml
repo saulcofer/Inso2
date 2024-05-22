@@ -60,10 +60,13 @@
                             <p:inputText value="#{usuarioController.usuario.persona.nombre}"/>   
                             
                             <p:outputLabel value="Valoracion" />
-                            <p:inputText value="#{sesionUsuarioController.sesion.valoracion}"/>   
+                            <p:inputText value="#{sesionUsuarioController.sesion.valoracion}"/> 
                             
-                            <p:outputLabel value="Comentario" />
-                            <p:inputText value="#{sesionUsuarioController.sesion.comentarios}"/>   
+                            <p:outputLabel value="Nueva Valoracion" />
+                            <p:inputText value="#{sesionUsuarioController.nuevaVal}"/>
+                            
+                            <p:outputLabel value="Nuevo comentario" />
+                            <p:inputText value="#{sesionUsuarioController.nuevoComentario}"/>   
                             
                             <p:commandButton value="Valorar" actionListener="#{sesionUsuarioController.valorarSesionUsuario()}" update=":frmPrincipal:tablaSesiones2" 
                                              oncomplete="PF('wdialogo1').hide();"/>

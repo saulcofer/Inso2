@@ -10,7 +10,9 @@ import ejb.SesionFacadeLocal;
 import ejb.UsuarioFacadeLocal;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
@@ -49,11 +51,11 @@ public class EditarSesionController implements Serializable{
     public void init(){
         listasesiones = sesionEJB.findAll();
         listaInstalaciones = instalacionEJB.findAll();
+        listaEntrenadores = usuarioEJB.findAllEntrenadores();
     }
 
     
     public void establecerSesionAñadir(){
-        this.listaEntrenadores = usuarioEJB.findAllEntrenadores();
         this.setAccion("R");
         this.sesion = new Sesion();
         System.out.println(this.sesion);
@@ -133,11 +135,62 @@ public class EditarSesionController implements Serializable{
         this.sesion = sesion;
     }
     
-    public void modificarSesion(){
-//        sesionEJB.edit(this.sesion);
-//        listasesiones = user.getSesiones();
+
+    public void modificarSesion() {
+        // cuando se modifican 2 seguidos, el 2 no entra por error de casteo multimenu
+        Usuario nuevoEntrenador = obtenerEntrenador(this.selected_entrenador);
+        List<Instalacion> nuevasInstalaciones = obtenerInstalaciones(this.selected_instalaciones);
+        List<Usuario> usuarios = sesion.getUsuarios();
+
+        // Actualizar entrenador
+        if (obtenerUsernameEntrenador(usuarios).equals(nuevoEntrenador.getUsername())) {
+            // Si el entrenador no ha cambiado, simplemente editamos la sesión
+            System.out.println("Mismo Entrenador");
+            sesionEJB.edit(this.sesion);
+        } else {
+            // Si el entrenador ha cambiado, actualizamos la lista de usuarios de la sesión
+            usuarios.removeIf(us -> us.getRol().getDescripcion().equals("Entrenador"));
+
+            // Añadimos el nuevo entrenador
+            usuarios.add(nuevoEntrenador);
+            sesion.setUsuarios(usuarios);
+            System.out.println("Entrenador Modificado");
+        }
+
+        // Actualizar instalaciones
+        List<Instalacion> instalacionesActuales = sesion.getInstalaciones();
+
+        // Eliminar instalaciones que ya no están seleccionadas
+        instalacionesActuales.removeIf(ins -> !nuevasInstalaciones.contains(ins));
+
+        // Añadir nuevas instalaciones seleccionadas
+        for (Instalacion nuevaInstalacion : nuevasInstalaciones) {
+            if (!instalacionesActuales.contains(nuevaInstalacion)) {
+                instalacionesActuales.add(nuevaInstalacion);
+                System.out.println("Instalacion Añadida");
+            }
+        }
+
+        sesion.setInstalaciones(instalacionesActuales);
+
+        sesionEJB.edit(this.sesion);
+        listasesiones = sesionEJB.findAll();
+        
+        // Para resetear selectMenus de la vista
+        this.selected_entrenador=-1;
+        this.selected_instalaciones=new int[0];
     }
 
+    
+    public boolean sameElements(List<Instalacion> list1, List<Instalacion> list2) {
+        if (list1 == null || list2 == null) {
+            return false;
+        }
+        Set<Instalacion> set1 = new HashSet<>(list1);
+        Set<Instalacion> set2 = new HashSet<>(list2);
+        return set1.equals(set2);
+    }
+    
     public List<Sesion> getListasesiones() {
         return listasesiones;
     }

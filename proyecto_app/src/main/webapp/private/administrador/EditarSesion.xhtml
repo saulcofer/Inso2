@@ -96,6 +96,13 @@
                             <p:calendar value="#{editarSesionController.sesion.fecha}" showOn="button" locale="es" id="dateSesion"/>
                             <p:message for="dateSesion"/>
                             
+                            <p:outputLabel id="valoracion" value="Valoración Media" rendered="#{editarSesionController.accion == 'M'}"/>
+                            <p:inputNumber value="#{editarSesionController.sesion.valoracion}" minValue="0" rendered="#{editarSesionController.accion == 'M'}"/>
+                            <p:message for="valoracion" rendered="#{editarSesionController.accion == 'M'}"/>
+                            
+                            <p:outputLabel id="comentarios" value="Comentarios" rendered="#{editarSesionController.accion == 'M'}"/>
+                            <p:inputText value="#{editarSesionController.sesion.comentarios}" rendered="#{editarSesionController.accion == 'M'}"/>
+                            <p:message for="comentarios" rendered="#{editarSesionController.accion == 'M'}"/>
                             
                             <p:outputLabel value="Selecciona el entrenador de la sesión" />
                             <p:selectOneMenu id="entrenador" value="#{editarSesionController.selected_entrenador}">
@@ -108,8 +115,9 @@
                                                   filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
                                 <f:selectItems itemLabel="#{ins.nombre} #{ins.tipo eq 'I' ? 'Instalación Deportiva' : 'Sala de Materiales'}" value='#{editarSesionController.listaInstalaciones}' itemValue="#{ins.idInstalacion}" var="ins"/>
                             </p:selectCheckboxMenu>
-                            <p:message for="entrenador"/>
+                            <p:message for="instalacion"/>
                             
+                          
                             <p:commandButton value="Insertar" actionListener="#{editarSesionController.insertarSesion()}" update=":frmPrincipal:tablaSesiones" 
                                              oncomplete="PF('wdialogo1').hide();" rendered="#{editarSesionController.accion == 'R'}" />
                             

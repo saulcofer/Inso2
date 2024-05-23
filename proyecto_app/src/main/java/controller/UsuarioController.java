@@ -50,7 +50,8 @@ public class UsuarioController implements Serializable{
         usuario = new Usuario();
         persona = new Persona();
         roles = rolEJB.getRoles();
-        usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+//        usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+        System.out.println("Se activa el controlador de Usuario con username: "+usuario.getUsername());
         usuarioEditar = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
         listasesiones = usuario.getSesiones();
     }
@@ -144,6 +145,9 @@ public class UsuarioController implements Serializable{
 
     public void setRol_elegido(String rol_elegido) {
         this.rol_elegido = rol_elegido;
+        if(((Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario"))!=null){
+            System.out.println("Se carga el rol elegido(altaUsuario). Usuario en sesión:: "+((Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getUsername());
+        }
     }
     
     public Rol obtenerRol(String rol_target){
@@ -164,6 +168,7 @@ public class UsuarioController implements Serializable{
     public void insertarUsuario(){
         String url;
         try{
+            System.out.println("Antes de crear nuevo usuario:"+((Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getUsername());
             rol = obtenerRol(this.rol_elegido);
             usuario.setRol(rol);
             usuario.setPersona(persona);
@@ -184,7 +189,7 @@ public class UsuarioController implements Serializable{
         // Suponiendo que tienes algún mecanismo para obtener el nombre de usuario actualmente autenticado
         // Buscar el usuario por su nombre de usuario
         usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
-                 System.out.println(this.usuario);
+                 System.out.println("Cargar datos sesion de usuario: "+((Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getUsername());
 
         // Si encontramos al usuario, podemos obtener la persona asociada
         if (usuario != null) {

@@ -53,6 +53,7 @@ public class IndexController implements Serializable{
             url= FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath()+"/faces/private/principal.xhtml";
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", aUser);
             FacesContext.getCurrentInstance().getExternalContext().redirect(url);
+            System.out.println("Usuario logeado:"+((Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getUsername());
             url="private/principal.xhtml";
         }else{
             url="public/index.xhtml";

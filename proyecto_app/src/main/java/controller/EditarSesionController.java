@@ -39,6 +39,8 @@ public class EditarSesionController implements Serializable{
     private String[] selected_instalaciones;
     private String[] selected_participantes;
     private String accion;
+    private Usuario entrenador;
+    private List<Usuario> participantes;
     
     @EJB
     private SesionFacadeLocal sesionEJB;
@@ -61,7 +63,9 @@ public class EditarSesionController implements Serializable{
     public void establecerSesionAñadir(){
         this.setAccion("R");
         this.sesion = new Sesion();
-        System.out.println(this.sesion);
+        // para resetear selectMenus de la vista
+        this.selected_entrenador=-1;
+        this.selected_instalaciones=null;
     }
 
     public void insertarSesion(){
@@ -171,21 +175,30 @@ public class EditarSesionController implements Serializable{
     public void establecerSesionEliminar(Sesion sesion){
         this.setAccion("E");
         this.sesion = sesion;
+        this.entrenador = obtenerEntrenador_lista(sesion.getUsuarios());
+        this.participantes=this.obtenerParticipantes_lista(sesion.getUsuarios());
     }
     
     public void eliminarSesion(){
-//        for(Usuario usuario : sesion.getUsuarios()) {
-//            usuario.getSesiones().remove(sesion);
-//        }
-//
-//        sesionEJB.remove(this.sesion);
-//        listasesiones = user.getSesiones();
+        for(Usuario usuario : sesion.getUsuarios()) {
+            usuario.getSesiones().remove(sesion);
+        }
+        for(Instalacion instalacion : sesion.getInstalaciones()) {
+            instalacion.getSesiones().remove(sesion);
+        }
+
+        sesionEJB.remove(this.sesion);
+        listasesiones = sesionEJB.findAll();
     }
     
     public void establecerSesionModificar(Sesion sesion){
         this.setAccion("M");
         this.sesion = sesion;
-        this.selected_entrenador=this.obtenerEntrenador_lista(this.sesion.getUsuarios()).getIdUser();
+        System.out.println(sesion.getUsuarios());
+        
+        if(this.obtenerEntrenador_lista(this.sesion.getUsuarios())!=null){
+            this.selected_entrenador=this.obtenerEntrenador_lista(this.sesion.getUsuarios()).getIdUser();
+        }
         this.selected_instalaciones=obtenerInstalaciones_names(this.sesion.getInstalaciones());
         this.selected_participantes=obtenerParticipantes_names(this.sesion.getUsuarios());
     }
@@ -342,6 +355,22 @@ public class EditarSesionController implements Serializable{
 
     public void setListaParticipantes(List<Usuario> listaParticipantes) {
         this.listaParticipantes = listaParticipantes;
+    }
+
+    public Usuario getEntrenador() {
+        return entrenador;
+    }
+
+    public void setEntrenador(Usuario entrenador) {
+        this.entrenador = entrenador;
+    }
+
+    public List<Usuario> getParticipantes() {
+        return participantes;
+    }
+
+    public void setParticipantes(List<Usuario> participantes) {
+        this.participantes = participantes;
     }
 
 }

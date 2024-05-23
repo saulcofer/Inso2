@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import javax.faces.context.FacesContext;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -117,6 +118,9 @@ public class Usuario implements Serializable{
 
     public void setUsername(String username) {
         this.username = username;
+        if(((Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario"))!=null){
+            System.out.println("Se cambian parametros en alta usuario. Usuario en sesión:: "+((Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getUsername());
+        }
     }
 
     public String getPassword() {

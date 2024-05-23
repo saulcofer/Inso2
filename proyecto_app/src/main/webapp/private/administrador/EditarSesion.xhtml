@@ -111,25 +111,43 @@
                             <p:inputText value="#{editarSesionController.sesion.comentarios}" rendered="#{editarSesionController.accion == 'M'}"/>
                             <p:message for="comentarios" rendered="#{editarSesionController.accion == 'M'}"/>
                             
-                            <p:outputLabel value="Selecciona el entrenador de la sesión" />
-                            <p:selectOneMenu id="entrenador" value="#{editarSesionController.selected_entrenador}">
+                            
+                            <p:outputLabel id="instalaciones_label" value="Instalaciones de la sesión" rendered="#{editarSesionController.accion == 'E'}"/>
+                            <p:dataList value="#{editarSesionController.sesion.instalaciones}" var="ins" type="unordered" rendered="#{editarSesionController.accion == 'E'}">
+                                #{ins.nombre} #{ins.tipo eq 'I' ? '(Instalación Deportiva)' : '(Sala de Materiales)'}
+                            </p:dataList>
+                            <p:message for="instalaciones_label" rendered="#{editarSesionController.accion == 'E'}"/>
+                            
+                            <p:outputLabel id="entrenador_label" value="Entrenador de la sesión" rendered="#{editarSesionController.accion == 'E'}"/>
+                            <h:outputText value="#{editarSesionController.entrenador.persona.nombre} #{editarSesionController.entrenador.persona.apellidos}" rendered="#{editarSesionController.accion == 'E'}"/>
+                            <p:message for="entrenador_label" rendered="#{editarSesionController.accion == 'E'}"/>
+                            
+                            <p:outputLabel id="participantes_label" value="Participantes de la sesión" rendered="#{editarSesionController.accion == 'E'}"/>
+                            <p:dataList value="#{editarSesionController.participantes}" var="us" type="unordered" rendered="#{editarSesionController.accion == 'E'}">
+                                #{us.persona.nombre} #{us.persona.apellidos}
+                            </p:dataList>
+                            <p:message for="participantes_label" rendered="#{editarSesionController.accion == 'E'}"/>
+                             
+                            
+                            <p:outputLabel value="Selecciona el entrenador de la sesión" rendered="#{editarSesionController.accion == 'M' or editarSesionController.accion == 'R'}"/>
+                            <p:selectOneMenu id="entrenador" value="#{editarSesionController.selected_entrenador}" rendered="#{editarSesionController.accion == 'M' or editarSesionController.accion == 'R'}">
                                 <f:selectItems itemLabel="#{user.persona.nombre} #{user.persona.apellidos}" value='#{editarSesionController.listaEntrenadores}' itemValue="#{user.idUser}" var="user"/>
                             </p:selectOneMenu>
-                            <p:message for="entrenador"/>
+                            <p:message for="entrenador" rendered="#{editarSesionController.accion == 'M' or editarSesionController.accion == 'R'}"/>
                             
-                            <p:outputLabel value="Selecciona los participantes de la sesión" />
+                            <p:outputLabel value="Selecciona los participantes de la sesión" rendered="#{editarSesionController.accion == 'M'}"/>
                             <p:selectCheckboxMenu id="participantes" value="#{editarSesionController.selected_participantes}" label="Instalaciones" multiple="true"
-                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px" rendered="#{editarSesionController.accion == 'M'}">
                                 <f:selectItems itemLabel="#{user.persona.nombre} #{user.persona.apellidos}" value='#{editarSesionController.listaParticipantes}' itemValue="#{user.username}" var="user"/>
                             </p:selectCheckboxMenu>
-                            <p:message for="participantes"/>
+                            <p:message for="participantes" rendered="#{editarSesionController.accion == 'M'}"/>
                             
-                            <p:outputLabel value="Selecciona las instalaciones de la sesión" />
+                            <p:outputLabel value="Selecciona las instalaciones de la sesión" rendered="#{editarSesionController.accion == 'M' or editarSesionController.accion == 'R'}"/>
                             <p:selectCheckboxMenu id="instalacion" value="#{editarSesionController.selected_instalaciones}" label="Instalaciones" multiple="true"
-                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px" rendered="#{editarSesionController.accion == 'M' or editarSesionController.accion == 'R'}">
                                 <f:selectItems itemLabel="#{ins.nombre} #{ins.tipo eq 'I' ? 'Instalación Deportiva' : 'Sala de Materiales'}" value='#{editarSesionController.listaInstalaciones}' itemValue="#{ins.nombre}" var="ins"/>
                             </p:selectCheckboxMenu>
-                            <p:message for="instalacion"/>
+                            <p:message for="instalacion" rendered="#{editarSesionController.accion == 'M' or editarSesionController.accion == 'R'}"/>
                             
                           
                             <p:commandButton value="Insertar" actionListener="#{editarSesionController.insertarSesion()}" update=":frmPrincipal:tablaSesiones" 

@@ -104,7 +104,7 @@
                             <p:message for="dateSesion"/>
                             
                             <p:outputLabel id="valoracion" value="Valoración Media" rendered="#{editarSesionController.accion == 'M'}"/>
-                            <p:inputNumber value="#{editarSesionController.sesion.valoracion}" minValue="0" rendered="#{editarSesionController.accion == 'M'}"/>
+                            <p:inputNumber value="#{editarSesionController.sesion.valoracion}" minValue="0" maxValue="10" rendered="#{editarSesionController.accion == 'M'}"/>
                             <p:message for="valoracion" rendered="#{editarSesionController.accion == 'M'}"/>
                             
                             <p:outputLabel id="comentarios" value="Comentarios" rendered="#{editarSesionController.accion == 'M'}"/>

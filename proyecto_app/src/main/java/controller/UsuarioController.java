@@ -181,6 +181,8 @@ public class UsuarioController implements Serializable{
     
    
     public void cargarDatosUsuario() {
+        // Suponiendo que tienes algún mecanismo para obtener el nombre de usuario actualmente autenticado
+        // Buscar el usuario por su nombre de usuario
         usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
                  System.out.println(this.usuario);
 
@@ -197,6 +199,8 @@ public class UsuarioController implements Serializable{
     
     
     public void editarUsuario() {
+        // Suponiendo que tienes algún mecanismo para obtener el nombre de usuario actualmente autenticado
+        // Buscar el usuario por su nombre de usuario
         usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
         usuario.setUsername(usuarioEditar.getUsername());
         System.out.println(usuarioEditar.getUsername());

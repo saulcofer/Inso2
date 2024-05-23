@@ -1,14 +1,102 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
         <ui:composition template="./../../WEB-INF/template/newTemplate.xhtml">
 
             <ui:define name="content">
-                content
+                <h:form id="frmPrincipal">
+                    <p:messages id="msgAction" severity="warn">
+                        <p:autoUpdate />
+                    </p:messages>
+                    <p:dataTable id="tablaInstalaciones" var="ins" value="#{editarInstalacionController.listaInstalaciones}" rows="10"
+                                 paginator="true" paginatorPosition="both"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                 rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+                        
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{ins.nombre}" />
+                        </p:column>
+                        
+                        <p:column headerText="Descripcion de la instalación">
+                            <h:outputText value="#{ins.descripcion}" />
+                        </p:column>
+
+                        <p:column headerText="Tipo">
+                            <h:outputText value="#{ins.tipo eq 'I' ? 'Instalación Deportiva' : 'Sala de Materiales'}" />
+                        </p:column>
+                        
+                        <p:column headerText="Aforo Mínimo">
+                            <h:outputText value="#{ins.aforo_min}" />
+                        </p:column>
+                        
+                        <p:column headerText="Aforo Máximo">
+                            <h:outputText value="#{ins.aforo_max}" />
+                        </p:column>
+                        
+                        <p:column headerText="Editar Instalación" style="width:100px">
+                            <p:commandLink actionListener="#{editarInstalacionController.establecerInstalacionModificar(ins)}"
+                                           oncomplete="PF('wdialogo1').show();" update=":frmDialogo:dialogo1">
+                                <h:graphicImage library="img" name="edit_icon.png" width="30px"/>
+                            </p:commandLink>
+                        </p:column>
+                        
+                        <p:column headerText="Eliminar Instalación" style="width:100px">
+                            <p:commandLink actionListener="#{editarInstalacionController.establecerInstalacionEliminar(ins)}"
+                                           oncomplete="PF('wdialogo1').show();" update=":frmDialogo:dialogo1">
+                                <h:graphicImage library="img" name="delete-icon.png" width="30px"/>
+                            </p:commandLink>
+                        </p:column>
+                        
+                        <f:facet name="paginatorBottomLeft">                             
+                            <p:commandLink actionListener="#{editarInstalacionController.establecerInstalacionAñadir()}"
+                                           oncomplete="PF('wdialogo1').show();" update=":frmDialogo:dialogo1">
+                                <h:graphicImage library="img" name="añadir_button.png" width="30px"/>
+                            </p:commandLink>
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                
+                <h:form id="frmDialogo">
+                    <p:dialog id="dialogo1" widgetVar="wdialogo1" modal="true" closeOnEscape="true" draggable="false" resizable="false" header="Instalaciones definidas">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Nombre de Instalación"/>
+                            <p:inputText value="#{editarInstalacionController.ins.nombre}"/>
+                            
+                            <p:outputLabel value="Descripción" />
+                            <p:inputText value="#{editarInstalacionController.ins.descripcion}"/>
+                            
+                            <p:outputLabel value="Tipo" />
+                            <p:selectOneMenu id="tipo" value="#{editarInstalacionController.ins.tipo}">
+                                <f:selectItem itemLabel="Instalación deportiva" itemValue='I'/>
+                                <f:selectItem itemLabel="Sala de Materiales" itemValue='M'/>
+                            </p:selectOneMenu>
+                            
+                            <p:outputLabel value="Aforo Mínimo" />
+                            <p:inputNumber value="#{editarInstalacionController.ins.aforo_min}" minValue="0"/>
+                            
+                            <p:outputLabel value="Aforo Máximo" />
+                            <p:inputNumber value="#{editarInstalacionController.ins.aforo_max}" minValue="1"/>
+                            
+                            <p:commandButton value="Insertar" actionListener="#{editarInstalacionController.insertarInstalacion()}" update=":frmPrincipal:tablaInstalaciones" 
+                                             oncomplete="PF('wdialogo1').hide();" rendered="#{editarInstalacionController.accion == 'R'}" />
+                            
+                            <p:commandButton value="Eliminar" actionListener="#{editarInstalacionController.eliminarInstalacion()}" update=":frmPrincipal:tablaInstalaciones" 
+                                             oncomplete="PF('wdialogo1').hide();" rendered="#{editarInstalacionController.accion == 'E'}" />
+                            
+                            <p:commandButton value="Modificar" actionListener="#{editarInstalacionController.modificarInstalacion()}" update=":frmPrincipal:tablaInstalaciones" 
+                                             oncomplete="PF('wdialogo1').hide();" rendered="#{editarInstalacionController.accion == 'M'}" />
+
+                        </p:panelGrid>
+                    </p:dialog>
+                </h:form>
             </ui:define>
 
         </ui:composition>

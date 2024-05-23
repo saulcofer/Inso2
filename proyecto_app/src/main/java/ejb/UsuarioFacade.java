@@ -74,4 +74,25 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
             return null; // O lanzar una excepción personalizada, según lo que necesites
         }
     }
+    
+    @Override
+    public List<Usuario> findAllEntrenadores(){
+        String consulta = "FROM Usuario u WHERE u.rol.idRol=:param1";
+        Query query = em.createQuery(consulta);
+        query.setParameter("param1",1);
+        List<Usuario>resultado = query.getResultList();
+        
+        return resultado;
+    }
+    
+    @Override
+    public List<Usuario> findAllParticipantes(){
+        String consulta = "FROM Usuario u WHERE u.rol.idRol=:param1";
+        Query query = em.createQuery(consulta);
+        query.setParameter("param1",2);
+        List<Usuario>resultado = query.getResultList();
+        
+        return resultado;
+    }
+    
 }

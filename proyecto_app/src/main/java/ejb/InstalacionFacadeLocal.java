@@ -33,5 +33,6 @@ public interface InstalacionFacadeLocal {
     List<Instalacion> findInstalaciones();
     
     List<Instalacion> findMateriales();
+    int crearInstalacion(Instalacion usuario);
     
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import modelo.Instalacion;
 import modelo.Rol;
 
@@ -60,5 +61,22 @@ public class InstalacionFacade extends AbstractFacade<Instalacion> implements In
         }
         
         return materiales;
+    }
+    
+    
+    @Override
+    public int crearInstalacion(Instalacion ins){
+        String consulta = "FROM Instalacion ins WHERE ins.nombre=:param1";
+        Query query = em.createQuery(consulta);
+        query.setParameter("param1",ins.getNombre());
+        List<Instalacion>resultado = query.getResultList();
+        
+        if(resultado.size()==0){
+            create(ins);
+            return 1;
+        }else{
+            return 0;
+        }
+        
     }
 }

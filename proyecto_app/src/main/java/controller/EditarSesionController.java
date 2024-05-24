@@ -10,6 +10,7 @@ import ejb.SesionFacadeLocal;
 import ejb.UsuarioFacadeLocal;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -76,9 +77,14 @@ public class EditarSesionController implements Serializable{
         sesion.setUsuarios(usuarios);
         sesion.getUsuarios().add(entrenador);
         
+        for(Instalacion ins:instalaciones){
+            ins.getSesiones().add(this.sesion);
+            instalacionEJB.edit(ins);
+        }
         sesion.setInstalaciones(instalaciones);
-        
         entrenador.getSesiones().add(sesion);
+        
+        usuarioEJB.edit(entrenador);
         sesionEJB.create(this.sesion);
         listasesiones = sesionEJB.findAll();
     }
@@ -182,9 +188,11 @@ public class EditarSesionController implements Serializable{
     public void eliminarSesion(){
         for(Usuario usuario : sesion.getUsuarios()) {
             usuario.getSesiones().remove(sesion);
+            usuarioEJB.edit(usuario);
         }
         for(Instalacion instalacion : sesion.getInstalaciones()) {
             instalacion.getSesiones().remove(sesion);
+            instalacionEJB.edit(instalacion);
         }
 
         sesionEJB.remove(this.sesion);
@@ -212,7 +220,9 @@ public class EditarSesionController implements Serializable{
         // Actualizar el entrenador
         Usuario entrenadorActual = obtenerEntrenador_lista(usuarios);
         if (!entrenadorActual.getUsername().equals(nuevoEntrenador.getUsername())) {
-            usuarios.remove(entrenadorActual);
+            entrenadorActual.getSesiones().remove(this.sesion);
+            usuarioEJB.edit(entrenadorActual);
+            usuarios.remove(entrenadorActual);            
             usuarios.add(nuevoEntrenador);
         }
 
@@ -225,6 +235,8 @@ public class EditarSesionController implements Serializable{
         for (Usuario participanteActual : new ArrayList<>(participantesActuales)) {
             if (!nuevosParticipantes.contains(participanteActual)) {
                 usuarios.remove(participanteActual);
+                participanteActual.getSesiones().remove(this.sesion);
+                usuarioEJB.edit(participanteActual);
             }
         }
 
@@ -232,20 +244,36 @@ public class EditarSesionController implements Serializable{
         for (Usuario nuevoParticipante : nuevosParticipantes) {
             if (!participantesActuales.contains(nuevoParticipante)) {
                 usuarios.add(nuevoParticipante);
+                nuevoParticipante.getSesiones().add(this.sesion);
+                usuarioEJB.edit(nuevoParticipante);
             }
         }
 
-        // Actualizar instalaciones
+        // Obtener la lista de instalaciones actuales de la sesión
         List<Instalacion> instalacionesActuales = sesion.getInstalaciones();
+        // Eliminar la sesión de las instalaciones que no están en las nuevas instalaciones
+        for (Instalacion instalacion : instalacionesActuales) {
+            if (!nuevasInstalaciones.contains(instalacion)) {
+                instalacion.getSesiones().remove(sesion);
+                instalacionEJB.edit(instalacion);
+            }
+        }
+
+        // Eliminar las instalaciones que no están en las nuevas instalaciones
         instalacionesActuales.removeIf(ins -> !nuevasInstalaciones.contains(ins));
+        // Agregar nuevas instalaciones y la sesión correspondiente si no está ya presente
         for (Instalacion nuevaInstalacion : nuevasInstalaciones) {
             if (!instalacionesActuales.contains(nuevaInstalacion)) {
                 instalacionesActuales.add(nuevaInstalacion);
+                nuevaInstalacion.getSesiones().add(sesion);
+                instalacionEJB.edit(nuevaInstalacion);
             }
         }
 
         sesion.setInstalaciones(instalacionesActuales);
         sesion.setUsuarios(usuarios);
+        nuevoEntrenador.getSesiones().add(this.sesion);
+        usuarioEJB.edit(nuevoEntrenador);
         sesionEJB.edit(this.sesion);
         listasesiones = sesionEJB.findAll();
     }
@@ -372,5 +400,5 @@ public class EditarSesionController implements Serializable{
     public void setParticipantes(List<Usuario> participantes) {
         this.participantes = participantes;
     }
-
+    
 }

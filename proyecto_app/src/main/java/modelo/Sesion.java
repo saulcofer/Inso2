@@ -130,7 +130,12 @@ public class Sesion implements Serializable{
         this.usuarios = usuarios;
     }
 
-    
+    public String getComentariosFormatted() {
+        if (this.getComentarios() != null) {
+            return this.getComentarios().replace("||", "<br/>");
+        }
+        return "";
+    }
    
     @Override
     public int hashCode() {

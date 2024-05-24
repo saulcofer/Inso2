@@ -5,6 +5,7 @@
  */
 package controller;
 
+import ejb.InstalacionFacadeLocal;
 import ejb.SesionFacadeLocal;
 import ejb.UsuarioFacadeLocal;
 import java.io.Serializable;
@@ -35,6 +36,9 @@ public class EditarUsuarioController implements Serializable{
     @EJB
     private UsuarioFacadeLocal userEJB;
     
+    @EJB
+    private InstalacionFacadeLocal instalacionEJB;
+    
     private String accion; // M=modificar E=eliminar R=añadir , hay que saber el caso para mostrar el widgetBar pertinente
     
     private Usuario usuario;
@@ -44,6 +48,7 @@ public class EditarUsuarioController implements Serializable{
     
     @PostConstruct
     public void init(){
+        System.out.println("Se cargan los usuarios de la DB");
         usuarios = userEJB.findAll();
     }
 
@@ -84,71 +89,46 @@ public class EditarUsuarioController implements Serializable{
         this.setAccion("E");
     }
     
+    
     public void eliminarUsuario(){  
         if(this.usuario.getRol().getDescripcion().equals("Participante")){
-            // quitar filas usuarios-sesiones
+            // Remove all sessions associated with the participant user
             this.usuario.getSesiones().clear();
-        }else{
-            // el usuario es entrenador, por tanto se borra la sesión (no puede haber sesión sin entrenador)
-            System.out.println("Número de sesiones: "+this.usuario.getSesiones().size());
-            for(Sesion sesion: this.usuario.getSesiones()){
+        } else {
+            // The user is a coach, so sessions should be deleted since they can't exist without a coach
+            System.out.println("Número de sesiones: " + this.usuario.getSesiones().size());
+            System.out.println(this.usuario.getSesiones());
+
+            // Create a copy of the list of sessions to avoid ConcurrentModificationException
+            List<Sesion> sesionesAEliminar = new ArrayList<>(this.usuario.getSesiones());
+
+            for(Sesion sesion: sesionesAEliminar){
                 System.out.println("Hola!!!!!");
-                for(Usuario us : sesion.getUsuarios()) {
-                    // quitar filas usuarios-sesiones
+
+                // Remove the session from each user in the session
+                for(Usuario us : new ArrayList<>(sesion.getUsuarios())) {
                     us.getSesiones().remove(sesion);
+                    userEJB.edit(us);
                 }
-                for(Instalacion instalacion : sesion.getInstalaciones()) {
-                    // quitar filas tabla instalaciones-sesiones
+
+                // Remove the session from each installation in the session
+                for(Instalacion instalacion : new ArrayList<>(sesion.getInstalaciones())) {
                     instalacion.getSesiones().remove(sesion);
+                    instalacionEJB.edit(instalacion); 
                 }
+
+                // Remove the session itself
                 sesionEJB.remove(sesion);
             }
+        }
 
-        }       
+        // Remove the user
         userEJB.remove(this.usuario);
+
+        // Refresh the list of users
         usuarios = userEJB.findAll();
     }
 
-//public void eliminarUsuario() {
-//    if (this.usuario.getRol().getDescripcion().equals("Participante")) {
-//        // quitar filas usuarios-sesiones
-//        this.usuario.getSesiones().clear();
-//    } else {
-//        // el usuario es entrenador, por tanto se borra la sesión (no puede haber sesión sin entrenador)
-//        System.out.println("Número de sesiones: " + this.usuario.getSesiones().size());
-//
-//        // Crear una lista temporal para almacenar las sesiones a eliminar
-//        List<Sesion> sesionesAEliminar = new ArrayList<>(this.usuario.getSesiones());
-//
-//        for (Sesion ses : sesionesAEliminar) {
-//            System.out.println("Hola!!!!!");
-//
-//            // Crear una lista temporal para los usuarios en la sesión
-//            List<Usuario> usuariosEnSesion = new ArrayList<>(ses.getUsuarios());
-//            for (Usuario us : usuariosEnSesion) {
-//                // quitar filas usuarios-sesiones
-//                us.getSesiones().remove(ses);
-//            }
-//
-//            // Crear una lista temporal para las instalaciones en la sesión
-//            List<Instalacion> instalacionesEnSesion = new ArrayList<>(ses.getInstalaciones());
-//            for (Instalacion instalacion : instalacionesEnSesion) {
-//                // quitar filas tabla instalaciones-sesiones
-//                instalacion.getSesiones().remove(ses);
-//            }
-//
-//            // Eliminar la sesión del EJB
-//            sesionEJB.remove(ses);
-//        }
-//
-//        // Limpiar la lista de sesiones del usuario actual
-//        this.usuario.getSesiones().clear();
-//    }
-//
-//    // Eliminar el usuario
-//    userEJB.remove(this.usuario);
-//    usuarios = userEJB.findAll();
-//}
 
     
     public void establecerUsuarioModificar(Usuario aUser){

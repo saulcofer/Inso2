@@ -59,9 +59,9 @@
                         </p:column>
                         
                         <p:column headerText="Comentarios">
-                            <h:outputText value="#{ses.comentarios}" />
+                            <h:outputText value="#{ses.getComentariosFormatted()}" escape="false" />
                         </p:column>
-                        
+
                         <p:column headerText="Editar Sesión" style="width:100px">
                             <p:commandLink actionListener="#{editarSesionController.establecerSesionModificar(ses)}"
                                            oncomplete="PF('wdialogo1').show();" update=":frmDialogo:dialogo1">

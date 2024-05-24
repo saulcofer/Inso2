@@ -30,6 +30,10 @@
                                 <h:outputText value="#{user.persona.nombre}, #{user.persona.apellidos}" />
                             </p:column>
                         
+                            <p:column headerText="Número de sesiones">
+                                <h:outputText value="#{user.sesiones.size()}" />
+                            </p:column>
+                        
                             <p:column headerText="Modificar Usuario" style="width:100px">
                                 <p:commandLink actionListener="#{editarUsuarioController.establecerUsuarioModificar(user)}"
                                                oncomplete="PF('wdialogo1').show();" update=":frmDialogo:dialogo1">

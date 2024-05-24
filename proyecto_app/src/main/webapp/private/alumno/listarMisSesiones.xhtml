@@ -12,7 +12,7 @@
 
             <ui:define name="content">
                 <h:form id="frmPrincipal">
-                    <p:dataTable id = "tablaSesiones2" var="sesion" value="#{usuarioController.listasesiones}" rows="10"
+                    <p:dataTable id = "tablaSesiones2" var="sesion" value="#{sesionUsuarioController.listasesiones}" rows="10"
                                  paginator="true" paginatorPosition="both"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
@@ -54,10 +54,10 @@
                     <p:dialog id="dialogo1" widgetVar="wdialogo1" modal="true" closeOnEscape="true" draggable="false" resizable="false" header="Valorar">
                         <p:panelGrid columns="2">
                             <p:outputLabel value="Nombre de Usuario" />
-                            <p:inputText value="#{usuarioController.usuario.username}"/>
+                            <p:inputText value="#{sesionUsuarioController.user.username}"/>
                             
                             <p:outputLabel value="Nombre" />
-                            <p:inputText value="#{usuarioController.usuario.persona.nombre}"/>   
+                            <p:inputText value="#{sesionUsuarioController.user.persona.nombre}"/>   
                             
                             <p:outputLabel value="Valoracion" />
                             <p:inputText value="#{sesionUsuarioController.sesion.valoracion}"/> 

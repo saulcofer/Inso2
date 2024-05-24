@@ -13,6 +13,7 @@ import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import modelo.Persona;
 import modelo.Sesion;
 import modelo.Usuario;
 
@@ -28,6 +29,7 @@ public class SesionUsuarioController implements Serializable{
     private List<Sesion> listasesiones;    
     private Sesion sesion;
     private Usuario user;
+    private Persona persona;
     private String accion;
     private float nuevaVal;
     private String nuevoComentario;
@@ -37,10 +39,23 @@ public class SesionUsuarioController implements Serializable{
     
     @PostConstruct
     public void init(){
+        user = new Usuario();
+        persona = new Persona();
         user=(Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
         listasesiones = user.getSesiones();
+        System.out.println("Se activa el controlador de Usuario con username: "+user.getUsername());
     }
 
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
+
+    
+    
     public String getNuevoComentario() {
         return nuevoComentario;
     }

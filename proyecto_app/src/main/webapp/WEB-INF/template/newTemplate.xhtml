@@ -11,14 +11,13 @@
         <h:outputStylesheet library="css" name="default.css"/>
         <h:outputStylesheet library="css" name="cssLayout.css"/>
         <h:outputScript library="js" name="metodos.js"/>
-        <title>Facelets Template</title>
+        <title>Ule Sports</title>
          <f:event type="preRenderView" listener="#{newTemplateController.verificarYMostrar()}"/>
     </h:head>
 
     <h:body>
 
         <div id="top">
-            <ui:insert name="top">Top</ui:insert>
             <p:menubar model="#{menuController.modelo}">
                 <f:facet name="options">
                     <h:form>
@@ -35,8 +34,8 @@
             </ui:insert>
         </div>
 
-        <div id="bottom">
-            <ui:insert name="bottom"></ui:insert>
+        <div id="bottom" style="background-color: #333; color: white; text-align: center; padding: 1em;  bottom: 0; width: 100%; display: flex; justify-content: center; align-items: center;">
+            <p>UleSports® 2024</p>
         </div>
 
     </h:body>

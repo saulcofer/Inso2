@@ -7,6 +7,7 @@ package controller;
 
 import ejb.InstalacionFacadeLocal;
 import ejb.SesionFacadeLocal;
+import ejb.UsuarioFacadeLocal;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,9 @@ public class SesionesEntrenadorController implements Serializable{
     @EJB
     private InstalacionFacadeLocal instalacionEJB;
     
+    @EJB
+    private UsuarioFacadeLocal usuarioEJB;
+    
     @PostConstruct
     public void init(){
         user=(Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
@@ -48,7 +52,7 @@ public class SesionesEntrenadorController implements Serializable{
     
     public void establecerSesionAñadir(){
         this.setAccion("R");
-        this.sesion = new Sesion();
+        this.sesion = new Sesion(); 
         String nuevas_instalaciones[]=new String[0];
         this.selected_instalaciones=nuevas_instalaciones;
     }
@@ -61,6 +65,7 @@ public class SesionesEntrenadorController implements Serializable{
         sesion.getUsuarios().add(user);
         user.getSesiones().add(sesion);
         sesionEJB.create(this.sesion);
+        usuarioEJB.edit(user);
         listasesiones = user.getSesiones();
     }
     
@@ -72,9 +77,11 @@ public class SesionesEntrenadorController implements Serializable{
     public void eliminarSesion(){
         for(Usuario usuario : sesion.getUsuarios()) {
             usuario.getSesiones().remove(sesion);
+            usuarioEJB.edit(usuario);
         }
         for(Instalacion instalacion : sesion.getInstalaciones()) {
             instalacion.getSesiones().remove(sesion);
+            instalacionEJB.edit(instalacion);
         }
 
         sesionEJB.remove(this.sesion);
@@ -90,6 +97,13 @@ public class SesionesEntrenadorController implements Serializable{
     public void modificarSesion(){
         List<Instalacion> instalacionesActuales = sesion.getInstalaciones();
         List<Instalacion> nuevasInstalaciones = obtenerInstalaciones(this.selected_instalaciones);
+        for (Instalacion instalacion : instalacionesActuales) {
+            if (!nuevasInstalaciones.contains(instalacion)) {
+                instalacion.getSesiones().remove(sesion);
+                instalacionEJB.edit(instalacion);
+            }
+        }
+        
         // Eliminar instalaciones que ya no están seleccionadas
         instalacionesActuales.removeIf(ins -> !nuevasInstalaciones.contains(ins));
 
@@ -97,12 +111,13 @@ public class SesionesEntrenadorController implements Serializable{
         for (Instalacion nuevaInstalacion : nuevasInstalaciones) {
             if (!instalacionesActuales.contains(nuevaInstalacion)) {
                 instalacionesActuales.add(nuevaInstalacion);
-                System.out.println("Instalacion Añadida");
+                nuevaInstalacion.getSesiones().add(sesion);
+                instalacionEJB.edit(nuevaInstalacion);
             }
         }
 
         sesion.setInstalaciones(instalacionesActuales);
-
+        
         sesionEJB.edit(this.sesion);
         
         listasesiones = user.getSesiones();

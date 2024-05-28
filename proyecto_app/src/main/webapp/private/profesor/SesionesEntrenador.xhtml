@@ -37,8 +37,12 @@
                         
                         <p:column headerText="Fecha de la sesión" style="width:150px">
                             <h:outputText value="#{ses.fecha}">
-                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
                             </h:outputText>
+                        </p:column>
+                        
+                        <p:column headerText="Comentarios de la sesión">
+                            <h:outputText value="#{ses.comentarios}"/>
                         </p:column>
                         
                         <p:column headerText="Editar Sesión" style="width:100px">

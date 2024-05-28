@@ -26,7 +26,9 @@
                 <p:outputLabel id="apellidos" value="#{usuarioController.persona.apellidos}" />
 
                 <p:outputLabel for="fechaNacimiento" value="Fecha de Nacimiento:" />
-                <p:outputLabel id="fechaNacimiento" value="#{usuarioController.persona.fechaNacimiento}"/>
+                <p:outputLabel id="fechaNacimiento" value="#{usuarioController.persona.fechaNacimiento}">
+                     <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:outputLabel>
 
                 <p:outputLabel for="sexo" value="Sexo:" />
                 <p:outputLabel id="sexo" value="#{usuarioController.persona.sexo}">

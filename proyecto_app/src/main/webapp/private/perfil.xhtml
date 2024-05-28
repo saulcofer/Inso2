@@ -15,6 +15,12 @@
                 <f:metadata>
                     <f:event type="preRenderView" listener="#{usuarioController.cargarDatosUsuario}" />
                 </f:metadata>
+                <p:panelGrid columns="2" style="width: 100%;">
+                    
+                <h:panelGroup style="width:50%;">
+                   <h:graphicImage library="images" name="Perfil.png" style="max-width: 100%; height: auto;" />
+                </h:panelGroup>
+                <h:panelGroup style="max-width: 100%; height: auto;" >
                 <p:panel header="Perfil de Usuario" style="width: 50%; margin: auto;">
                     <p:panelGrid columns="2" columnClasses="label,value" styleClass="ui-panelgrid-blank">
                         <p:outputLabel for="username" value="Nombre de Usuario:" />
@@ -39,6 +45,8 @@
                         </p:commandButton>
                     </p:panelGrid>
                 </p:panel>
+                 </h:panelGroup>
+                </p:panelGrid>
             </h:form>            
             </ui:define>
         </ui:composition>

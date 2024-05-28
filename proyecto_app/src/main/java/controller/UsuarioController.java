@@ -211,9 +211,9 @@ public class UsuarioController implements Serializable{
         System.out.println(usuarioEditar.getUsername());
         // Si encontramos al usuario, podemos obtener la persona asociada
         if (usuario != null) {
-            persona = usuario.getPersona();
+            persona = usuarioEditar.getPersona();
         }
-        
+        userEJB.edit(usuario);
         
     }
 }

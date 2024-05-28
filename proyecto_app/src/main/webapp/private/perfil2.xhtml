@@ -14,6 +14,7 @@
             <f:event type="preRenderView" listener="#{usuarioController.cargarDatosUsuario}" />
         </f:metadata>
         <p:panel header="Perfil de Usuario" style="width: 50%; margin: auto;">
+                                    
             <p:panelGrid columns="2" columnClasses="label,value" styleClass="ui-panelgrid-blank">
                 <p:outputLabel for="username" value="Nombre de Usuario:" />
                 <p:outputLabel id="username" value="#{usuarioController.usuario.username}" />

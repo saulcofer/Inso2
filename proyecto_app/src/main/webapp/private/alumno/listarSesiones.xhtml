@@ -18,7 +18,9 @@ and open the template in the editor.
         <ui:composition template="./../../WEB-INF/template/newTemplate.xhtml">
 
             <ui:define name="content">
-                <h:form id="frmPrincipal">
+                    <p:messages id="msgAction" severity="info">
+                        <p:autoUpdate />
+                    </p:messages>                <h:form id="frmPrincipal">
                     <p:dataTable id = "tablaSesiones2" var="sesion" value="#{listarSesionesController.sesiones}" rows="10"
                                  paginator="true" paginatorPosition="both"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"

@@ -76,15 +76,9 @@ public class EditarSesionController implements Serializable{
         
         sesion.setUsuarios(usuarios);
         sesion.getUsuarios().add(entrenador);
-        
-        for(Instalacion ins:instalaciones){
-            ins.getSesiones().add(this.sesion);
-            instalacionEJB.edit(ins);
-        }
         sesion.setInstalaciones(instalaciones);
         entrenador.getSesiones().add(sesion);
         
-        usuarioEJB.edit(entrenador);
         sesionEJB.create(this.sesion);
         listasesiones = sesionEJB.findAll();
     }

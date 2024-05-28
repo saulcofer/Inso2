@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -124,7 +125,7 @@ public class SesionUsuarioController implements Serializable{
         sesionEJB.edit(this.sesion);
         listasesiones = user.getSesiones();
         
-        if(sesion.getUsuarios().isEmpty())
+        if(sesion.getUsuarios().size()==1)
         {
             //Sesion vacia
             sesion.getValoracion();
@@ -132,19 +133,54 @@ public class SesionUsuarioController implements Serializable{
         }else{
             //Sesion con participantes
             float val = nuevaVal;
-            float num = sesion.getValoracion()*(sesion.getUsuarios().size()-1)+val;
-            float result = num/sesion.getUsuarios().size();
+            float num,result;
+            
+            if(sesion.getUsuarios().size()==2){
+                result = nuevaVal;
+            }else{
+                num = sesion.getValoracion()*(sesion.getUsuarios().size()-2)+val;
+                result = num/sesion.getUsuarios().size();
+            }
+            
             this.sesion.setValoracion(result);
-            sesion.setComentarios(sesion.getComentarios()+user.getUsername()+":"+nuevoComentario+"  ");
+            if(!nuevoComentario.equals("")){
+                if(sesion.getComentarios()==null){
+                    sesion.setComentarios(user.getUsername()+":"+nuevoComentario+"  ");
+                }else{
+                    sesion.setComentarios(sesion.getComentarios()+user.getUsername()+":"+nuevoComentario+"  ");
+                }
+                
+            }
         }
         sesionEJB.edit(this.sesion);
     }
     
     public void inscribirseEnSesion(){
         user=(Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
-        sesion.getUsuarios().add(user);
-        user.getSesiones().add(sesion); 
-        listasesiones = user.getSesiones();
+        
+        System.out.println(user.getPersona().getNombre());
+        
+        int i=0;
+        boolean found=false;
+        
+        while (!found && i<this.sesion.getUsuarios().size()){
+            if(user.getUsername().equals(this.sesion.getUsuarios().get(i).getUsername())){
+                found=true;
+            }
+            i++;
+        }
+        
+        if(!found){
+            System.out.println("Entra");
+            sesion.getUsuarios().add(user);
+            user.getSesiones().add(sesion); 
+            listasesiones = user.getSesiones();
+        }else{
+            System.out.println("No entra");
+            FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Ya estas inscrito",""));
+        }
+        
+
     }
     
 }

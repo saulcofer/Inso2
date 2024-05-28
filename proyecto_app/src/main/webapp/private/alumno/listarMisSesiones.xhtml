@@ -23,13 +23,13 @@
                         </p:column>
                         
                         <p:column headerText="Cuerpo" style="width:150px">
-                            <h:outputText value="#{sesion.cuerpo}">
-                                <f:convertDateTime pattern="dd/MM/yyyy"/>
-                            </h:outputText>
+                            <h:outputText value="#{sesion.cuerpo}"/>
                         </p:column>
                         
                         <p:column headerText="Fecha">
-                            <h:outputText value="#{sesion.fecha}" />
+                            <h:outputText value="#{sesion.fecha}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+                            </h:outputText>
                         </p:column>
 
                         <p:column headerText="Valoracion media">

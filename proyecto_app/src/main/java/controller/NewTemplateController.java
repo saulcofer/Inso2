@@ -53,6 +53,10 @@ public class NewTemplateController implements Serializable{
         FacesContext.getCurrentInstance().getExternalContext().redirect(url);
     }
     
+    public void iraCasa() throws IOException {
+        String url="/proyecto_app/faces/private/principal.xhtml";   // redirige a la xhtml inicial por defecto en web.xml
+        FacesContext.getCurrentInstance().getExternalContext().redirect(url);
+    }
     
     public Usuario getSessionUser() {
         return sessionUser;

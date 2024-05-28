@@ -37,7 +37,7 @@
                         </p:column>
                         
                         <p:column headerText="Comentarios">
-                            <h:outputText value="#{sesion.comentarios}" />
+                            <h:outputText  value="#{sesion.getComentariosFormatted()}" escape="false" />
                         </p:column>
                         
                         <p:column headerText="Valorar" style="width:100px">
@@ -63,7 +63,7 @@
                             <p:inputText value="#{sesionUsuarioController.sesion.valoracion}"/> 
                             
                             <p:outputLabel value="Nueva Valoracion" />
-                            <p:inputText value="#{sesionUsuarioController.nuevaVal}"/>
+                            <p:inputNumber value="#{sesionUsuarioController.nuevaVal}" minValue="0" maxValue="10"/>
                             
                             <p:outputLabel value="Nuevo comentario" />
                             <p:inputText value="#{sesionUsuarioController.nuevoComentario}"/>   

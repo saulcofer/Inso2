@@ -44,7 +44,7 @@ and open the template in the editor.
                         </p:column>
                         
                         <p:column headerText="Comentarios">
-                            <h:outputText value="#{sesion.comentarios}" />
+                            <h:outputText value="#{sesion.getComentariosFormatted()}" escape="false" />
                         </p:column>
                         
                         <p:column headerText="Inscribirse" style="width:100px">

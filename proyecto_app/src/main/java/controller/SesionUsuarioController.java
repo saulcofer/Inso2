@@ -128,14 +128,14 @@ public class SesionUsuarioController implements Serializable{
         {
             //Sesion vacia
             sesion.getValoracion();
-            sesion.setComentarios(user.getUsername()+": "+nuevoComentario+"||");
+            sesion.setComentarios(user.getUsername()+":"+nuevoComentario+"  ");
         }else{
             //Sesion con participantes
             float val = nuevaVal;
             float num = sesion.getValoracion()*(sesion.getUsuarios().size()-1)+val;
             float result = num/sesion.getUsuarios().size();
             this.sesion.setValoracion(result);
-            sesion.setComentarios(sesion.getComentarios()+user.getUsername()+": "+nuevoComentario+"||");
+            sesion.setComentarios(sesion.getComentarios()+user.getUsername()+":"+nuevoComentario+"  ");
         }
         sesionEJB.edit(this.sesion);
     }

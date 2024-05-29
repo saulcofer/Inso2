@@ -122,12 +122,11 @@ public class SesionUsuarioController implements Serializable{
     public void valorarSesionUsuario(){
         user=(Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
         this.sesion = sesion;
-        sesionEJB.edit(this.sesion);
         listasesiones = user.getSesiones();
         
         if(sesion.getUsuarios().size()==1)
         {
-            //Sesion vacia
+            //Sesion vacia de valoracion
             sesion.getValoracion();
             sesion.setComentarios(user.getUsername()+":"+nuevoComentario+"  ");
         }else{
@@ -138,8 +137,7 @@ public class SesionUsuarioController implements Serializable{
             if(sesion.getUsuarios().size()==2){
                 result = nuevaVal;
             }else{
-                num = sesion.getValoracion()*(sesion.getUsuarios().size()-2)+val;
-                result = num/sesion.getUsuarios().size();
+                result = calcularNuevaMedia(sesion.getValoracion(),sesion.getUsuarios().size()-1,nuevaVal);
             }
             
             this.sesion.setValoracion(result);
@@ -153,6 +151,22 @@ public class SesionUsuarioController implements Serializable{
             }
         }
         sesionEJB.edit(this.sesion);
+    }
+    
+    public static float calcularNuevaMedia(float mediaAnterior, int numeroParticipantes, float nuevaNota) {
+        // Calcula la suma total de todas las evaluaciones anteriores
+        float sumaTotalAnterior = mediaAnterior * numeroParticipantes;
+        
+        // Suma la nueva nota a la suma total anterior
+        float sumaTotalNueva = sumaTotalAnterior + nuevaNota;
+        
+        // Calcula el nuevo número total de participantes, que incluye al nuevo evaluador
+        int nuevoNumeroParticipantes = numeroParticipantes + 1;
+        
+        // Calcula la nueva media
+        float nuevaMedia = sumaTotalNueva / nuevoNumeroParticipantes;
+        
+        return nuevaMedia;
     }
     
     public void inscribirseEnSesion(){
